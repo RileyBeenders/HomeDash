@@ -1,0 +1,280 @@
+/* Design tokens. The single source for color, type, shape, depth and motion.
+ *
+ * Everything a screen draws goes through a token here; nothing below this file
+ * names a hex, a pixel radius or a duration of its own. Light and dark are
+ * separate palettes of the same names: follow the system by default, and let
+ * <html data-theme="light|dark"> override it.
+ *
+ * Contrast: every text/surface pairing below holds WCAG AA (4.5:1) in both
+ * palettes. Re-check with docs/design/color.md before changing a value.
+ */
+
+:root {
+  /* ----------------------------------------------------------------- type */
+  /* System faces only: nothing to download, so it works offline on a small
+   * device. --font-display sets headings and big readings, --font-text sets
+   * sentences, --font-mono sets code and values that must line up. */
+  --font-display: "Avenir Next", "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+  --font-text: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "SF Mono", ui-monospace, Consolas, monospace;
+
+  /* Fluid scale: each step grows with the viewport but never below the floor,
+   * so a phone, a tablet and a wall display all read comfortably. */
+  --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --text-sm: clamp(0.8125rem, 0.79rem + 0.2vw, 0.9375rem);
+  --text-md: clamp(0.9375rem, 0.9rem + 0.25vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --text-xl: clamp(1.5rem, 1.3rem + 1vw, 2.125rem);
+  --text-hero: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+  --leading-tight: 1.15;
+  --leading-body: 1.5;
+
+  /* ---------------------------------------------------------------- shape */
+  /* Corners are concentric: a control inside a container takes the next step
+   * down. Steps are uneven on purpose, so a panel, a group, a field and a tag
+   * never share a corner. */
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius: 16px;
+  --radius-sm: 11px;
+  --radius-xs: 7px;
+  --radius-full: 999px;
+
+  /* ------------------------------------------------------------- spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+  --gap: var(--space-4);
+  /* Keep content this far in from the screen edge: room for shadows, and for
+   * a display whose bezel crops the edge. */
+  --safe-x: 24px;
+
+  /* --------------------------------------------------------------- touch */
+  /* Hit targets. Visual size may be smaller; the tappable area may not. */
+  --hit-min: 44px;
+  --hit-kiosk: 56px;
+  --hit-gap: 8px;
+
+  /* -------------------------------------------------------------- layers */
+  --z-raised: 1;
+  --z-bar: 30;
+  --z-popover: 55;
+  --z-toast: 60;
+  --z-skip: 100;
+
+  /* -------------------------------------------------------------- motion */
+  /* Four curves, one job each. Nothing overshoots: a control that bounces
+   * reads as unsteady, and bounce on a wall display reads as broken.
+   *   --ease          hover and colour changes
+   *   --ease-out      anything entering, leaving, or answering a press
+   *   --ease-in-out   something already on screen moving somewhere else
+   *   --ease-breathe  indicator lights, which rise and fall while lit */
+  --ease: ease;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-breathe: cubic-bezier(0.37, 0, 0.63, 1);
+
+  --dur-press: 140ms;
+  --dur-fast: 150ms;
+  --dur-normal: 200ms;
+  --dur-slow: 300ms;
+  --dur-slower: 500ms;
+  --stagger: 80ms;
+
+  /* How fast each kind of light pulses: faster means more urgent. */
+  --pulse-calm: 2.4s;
+  --pulse-busy: 1.6s;
+  --pulse-urgent: 0.9s;
+  --pulse-rare: 6s;
+  --light-size: 20px;
+
+  /* The press: a control gives a little under a finger and eases back. */
+  --press-scale: 0.97;
+  --press-scale-icon: 0.94;
+  /* Content arrives from this far below. */
+  --enter-rise: 12px;
+
+  /* ---------------------------------------------------------------- glass */
+  /* Glass is the functional layer only: bars, sheets, toasts, popovers. The
+   * content layer (cards, rows, tables, readings) is always opaque. */
+  --glass-blur: 28px;
+  --glass-sat: 1.4;
+}
+
+/* ============================================================ light palette */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f6f1ea;
+  --bg-raised: #fffdf9;
+  --bg-sunken: #ede6dc;
+  --line: #e2d9cc;
+  --line-strong: #cfc3b2;
+
+  --text: #26211c;
+  --text-dim: #5a5046;
+  --text-faint: #6f6355;
+
+  --accent: #b3411c;
+  --accent-hover: #963515;
+  --accent-on: #ffffff;
+  --accent-rgb: 179, 65, 28;
+  --accent-soft: rgba(var(--accent-rgb), 0.1);
+  --accent-line: rgba(var(--accent-rgb), 0.32);
+
+  /* A cool counterpoint to the warm accent, for secondary emphasis and data. */
+  --counter: #26666a;
+  --counter-rgb: 38, 102, 106;
+  --counter-soft: rgba(var(--counter-rgb), 0.1);
+
+  --ok: #1f7a47;
+  --ok-soft: rgba(31, 122, 71, 0.12);
+  --warn: #8f5400;
+  --warn-soft: rgba(143, 84, 0, 0.12);
+  --bad: #b3261e;
+  --bad-soft: rgba(179, 38, 30, 0.1);
+
+  --shade-rgb: 60, 40, 20;
+  --shadow-soft: 0 1px 2px rgba(var(--shade-rgb), 0.08);
+  --shadow-default: 0 2px 10px rgba(var(--shade-rgb), 0.1);
+  --shadow-hover: 0 6px 20px rgba(var(--shade-rgb), 0.14);
+  --shadow-elevated: 0 20px 48px rgba(var(--shade-rgb), 0.2);
+  --inset: inset 0 1px 3px rgba(var(--shade-rgb), 0.14);
+
+  --glass-fill: rgba(255, 253, 249, 0.72);
+  --glass-fill-strong: rgba(255, 253, 249, 0.95);
+  --glass-line: rgba(var(--shade-rgb), 0.1);
+  --scrim: rgba(38, 33, 28, 0.38);
+
+  --ambient: rgba(var(--accent-rgb), 0.06);
+  --focus-ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
+}
+
+/* ============================================================= dark palette */
+/* Follow the system unless the page pins a theme. The pinned dark block after
+ * this one carries the same values; keep the two in step. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: #1b1714;
+    --bg-raised: #26211d;
+    --bg-sunken: #141110;
+    --line: rgba(255, 244, 230, 0.1);
+    --line-strong: rgba(255, 244, 230, 0.2);
+
+    --text: #f4ede4;
+    --text-dim: #c6bbad;
+    --text-faint: #a89d8f;
+
+    --accent: #f2916a;
+    --accent-hover: #f6aa89;
+    --accent-on: #2a1006;
+    --accent-rgb: 242, 145, 106;
+
+    --counter: #72c7c9;
+    --counter-rgb: 114, 199, 201;
+
+    --ok: #6fd29b;
+    --ok-soft: rgba(111, 210, 155, 0.14);
+    --warn: #f2bb52;
+    --warn-soft: rgba(242, 187, 82, 0.14);
+    --bad: #ff8f86;
+    --bad-soft: rgba(255, 143, 134, 0.14);
+
+    --shade-rgb: 0, 0, 0;
+    --shadow-soft: 0 1px 2px rgba(var(--shade-rgb), 0.4);
+    --shadow-default: 0 2px 10px rgba(var(--shade-rgb), 0.4);
+    --shadow-hover: 0 6px 20px rgba(var(--shade-rgb), 0.5);
+    --shadow-elevated: 0 20px 48px rgba(var(--shade-rgb), 0.6);
+    --inset: inset 0 1px 3px rgba(var(--shade-rgb), 0.5);
+
+    --glass-fill: rgba(38, 33, 29, 0.66);
+    --glass-fill-strong: rgba(38, 33, 29, 0.95);
+    --glass-line: rgba(255, 244, 230, 0.12);
+    --scrim: rgba(0, 0, 0, 0.55);
+
+    --ambient: rgba(var(--accent-rgb), 0.08);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #1b1714;
+  --bg-raised: #26211d;
+  --bg-sunken: #141110;
+  --line: rgba(255, 244, 230, 0.1);
+  --line-strong: rgba(255, 244, 230, 0.2);
+
+  --text: #f4ede4;
+  --text-dim: #c6bbad;
+  --text-faint: #a89d8f;
+
+  --accent: #f2916a;
+  --accent-hover: #f6aa89;
+  --accent-on: #2a1006;
+  --accent-rgb: 242, 145, 106;
+  --accent-soft: rgba(var(--accent-rgb), 0.14);
+  --accent-line: rgba(var(--accent-rgb), 0.4);
+
+  --counter: #72c7c9;
+  --counter-rgb: 114, 199, 201;
+  --counter-soft: rgba(var(--counter-rgb), 0.14);
+
+  --ok: #6fd29b;
+  --ok-soft: rgba(111, 210, 155, 0.14);
+  --warn: #f2bb52;
+  --warn-soft: rgba(242, 187, 82, 0.14);
+  --bad: #ff8f86;
+  --bad-soft: rgba(255, 143, 134, 0.14);
+
+  --shade-rgb: 0, 0, 0;
+  --shadow-soft: 0 1px 2px rgba(var(--shade-rgb), 0.4);
+  --shadow-default: 0 2px 10px rgba(var(--shade-rgb), 0.4);
+  --shadow-hover: 0 6px 20px rgba(var(--shade-rgb), 0.5);
+  --shadow-elevated: 0 20px 48px rgba(var(--shade-rgb), 0.6);
+  --inset: inset 0 1px 3px rgba(var(--shade-rgb), 0.5);
+
+  --glass-fill: rgba(38, 33, 29, 0.66);
+  --glass-fill-strong: rgba(38, 33, 29, 0.95);
+  --glass-line: rgba(255, 244, 230, 0.12);
+  --scrim: rgba(0, 0, 0, 0.55);
+
+  --ambient: rgba(var(--accent-rgb), 0.08);
+  --focus-ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
+}
+
+/* Tints that read --accent-rgb must be restated after it changes. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --accent-soft: rgba(var(--accent-rgb), 0.14);
+    --accent-line: rgba(var(--accent-rgb), 0.4);
+    --counter-soft: rgba(var(--counter-rgb), 0.14);
+    --focus-ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
+  }
+}
+
+/* ------------------------------------------------------- reduced motion */
+/* Motion that carries meaning is replaced by a state change; decorative motion
+ * stops. Durations collapse rather than the properties vanishing, so layout
+ * and focus still land where they should. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-press: 0.01ms;
+    --dur-fast: 0.01ms;
+    --dur-normal: 0.01ms;
+    --dur-slow: 0.01ms;
+    --dur-slower: 0.01ms;
+    --stagger: 0ms;
+    --enter-rise: 0px;
+    --press-scale: 1;
+    --press-scale-icon: 1;
+  }
+}

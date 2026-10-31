@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Style guide</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: var(--text-md)/var(--leading-body) var(--font-text);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* The ground: one soft light from the top-left, never over a card. */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(70rem 40rem at 0% 0%, var(--ambient), transparent 70%);
+  }
+  h1, h2, h3 { font-family: var(--font-display); line-height: var(--leading-tight); margin: 0; }
+  h1 { font-size: var(--text-xl); font-weight: 700; }
+  h2 { font-size: var(--text-lg); font-weight: 650; }
+  h3 { font-size: var(--text-md); font-weight: 600; }
+  p { margin: 0; color: var(--text-dim); }
+  code { font-family: var(--font-mono); font-size: 0.9em; color: var(--text); }
+
+  /* ---- functional layer: the bar floats on glass */
+  .bar {
+    position: sticky; top: 0; z-index: var(--z-bar);
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+    padding: var(--space-3) max(var(--safe-x), env(safe-area-inset-left));
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    border-bottom: 1px solid var(--glass-line);
+  }
+  .bar nav { display: flex; gap: var(--space-1); flex-wrap: wrap; }
+  .bar a { color: var(--text-dim); text-decoration: none; padding: 6px 14px; border-radius: var(--radius-full);
+    font: 500 var(--text-sm) var(--font-display); transition: background var(--dur-normal) var(--ease), color var(--dur-normal) var(--ease); }
+  .bar a:hover { background: var(--accent-soft); color: var(--text); }
+
+  main { max-width: 1040px; margin: 0 auto; padding: var(--space-6) max(var(--safe-x), env(safe-area-inset-left)) var(--space-8); display: grid; gap: var(--space-7); }
+  section { display: grid; gap: var(--space-4); scroll-margin-top: 72px; }
+  .lede { max-width: 60ch; }
+  .grid { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+
+  /* ---- content layer: opaque card, hairline, soft shadow */
+  .card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-default); padding: var(--space-5); display: grid; gap: var(--space-3);
+    transition: box-shadow var(--dur-normal) var(--ease), transform var(--dur-normal) var(--ease-out);
+  }
+  @media (hover: hover) { .card.lift:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); } }
+  .label { font: 600 var(--text-xs)/1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+  /* ---- buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: var(--hit-min); padding: 0 var(--space-5);
+    border: 1px solid var(--line-strong); border-radius: var(--radius-full);
+    background: var(--bg-raised); color: var(--text); cursor: pointer;
+    font: 600 var(--text-sm) var(--font-display); touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    transition: background var(--dur-normal) var(--ease), border-color var(--dur-normal) var(--ease), transform var(--dur-press) var(--ease-out);
+  }
+  @media (hover: hover) { .btn:hover { background: var(--bg-sunken); } }
+  .btn:active { transform: scale(var(--press-scale)); }
+  .btn:focus-visible, .seg button:focus-visible, .switch input:focus-visible + .track { outline: none; box-shadow: var(--focus-ring); }
+  .btn.primary { background: var(--accent); border-color: transparent; color: var(--accent-on); }
+  @media (hover: hover) { .btn.primary:hover { background: var(--accent-hover); } }
+  .btn.quiet { background: transparent; border-color: transparent; color: var(--accent); }
+  @media (hover: hover) { .btn.quiet:hover { background: var(--accent-soft); } }
+  .btn.danger { color: var(--bad); }
+  .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .btn.kiosk { min-height: var(--hit-kiosk); padding: 0 var(--space-6); font-size: var(--text-md); }
+
+  /* ---- segmented control */
+  .seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--radius-full); background: var(--bg-sunken); box-shadow: var(--inset); }
+  .seg button {
+    min-height: 38px; padding: 0 var(--space-4); border: 0; border-radius: var(--radius-full); background: transparent;
+    color: var(--text-dim); font: 500 var(--text-sm) var(--font-display); cursor: pointer; touch-action: manipulation;
+    transition: background var(--dur-normal) var(--ease), color var(--dur-normal) var(--ease), transform var(--dur-press) var(--ease-out);
+  }
+  .seg button:active { transform: scale(var(--press-scale)); }
+  .seg button[aria-selected="true"] { background: var(--bg-raised); color: var(--text); box-shadow: var(--shadow-soft), 0 0 0 1px var(--line); }
+
+  /* ---- switch */
+  .switch { position: relative; display: inline-flex; width: 52px; height: 32px; flex: none; }
+  .switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: var(--z-raised); }
+  .switch .track { flex: 1; border-radius: var(--radius-full); background: var(--bg-sunken); box-shadow: var(--inset); transition: background var(--dur-normal) var(--ease); }
+  .switch .knob { position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-raised);
+    box-shadow: var(--shadow-default); transition: transform var(--dur-normal) var(--ease-out); pointer-events: none; }
+  .switch input:checked ~ .track { background: var(--accent); }
+  .switch input:checked ~ .knob { transform: translateX(20px); }
+
+  /* ---- status light: a pulse, never a flash. Faster means more urgent. */
+  .light { width: var(--light-size); height: var(--light-size); border-radius: 50%; background: var(--c, var(--ok)); flex: none;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c, var(--ok)) 20%, transparent); }
+  .light.ok { --c: var(--ok); animation: breathe var(--pulse-calm) var(--ease-breathe) infinite; }
+  .light.busy { --c: var(--warn); animation: breathe var(--pulse-busy) var(--ease-breathe) infinite; }
+  .light.bad { --c: var(--bad); animation: breathe var(--pulse-urgent) var(--ease-breathe) infinite; }
+  .light.idle { --c: var(--text-faint); }
+  @keyframes breathe { 50% { opacity: 0.45; transform: scale(0.88); } }
+  .tile { display: flex; align-items: center; gap: var(--space-3); }
+  .tile strong { font: 600 var(--text-md) var(--font-display); }
+  .tile span { color: var(--text-dim); font-size: var(--text-sm); }
+  .reading { font: 700 var(--text-hero)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+  /* ---- swatches */
+  .sw { display: grid; gap: var(--space-2); }
+  .sw i { height: 64px; border-radius: var(--radius); background: var(--v); border: 1px solid var(--line); }
+  .sw b { font: 600 var(--text-sm) var(--font-display); }
+  .sw small { color: var(--text-faint); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .radii { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+  .radii i { width: 84px; height: 84px; background: var(--bg-raised); border: 1px solid var(--line-strong); border-radius: var(--r); display: grid; place-items: center;
+    font: 500 var(--text-xs) var(--font-mono); color: var(--text-dim); font-style: normal; }
+
+  /* ---- motion demo */
+  .enter-demo .card { animation: enter-up var(--dur-slower) var(--ease-out) both; }
+  .enter-demo .card:nth-child(2) { animation-delay: var(--stagger); }
+  .enter-demo .card:nth-child(3) { animation-delay: calc(var(--stagger) * 2); }
+  @keyframes enter-up { from { opacity: 0; transform: translateY(var(--enter-rise)); } }
+  .curve { display: grid; gap: var(--space-2); }
+  .curve .lane { height: 12px; border-radius: var(--radius-full); background: var(--bg-sunken); box-shadow: var(--inset); position: relative; }
+  .curve .dot { position: absolute; top: -4px; left: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--accent);
+    transition: left 900ms var(--c); }
+  .curve.go .dot { left: calc(100% - 20px); }
+
+  /* ---- toast + sheet */
+  .toast { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius);
+    background: var(--glass-fill-strong); border: 1px solid var(--glass-line); box-shadow: var(--shadow-elevated);
+    -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); max-width: 46ch; }
+  .toast .light { --light-size: 12px; margin-top: 6px; animation: none; }
+  dialog.sheet { width: min(460px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--glass-line); border-radius: var(--radius-xl);
+    background: var(--glass-fill-strong); color: var(--text); box-shadow: var(--shadow-elevated);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)); backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)); }
+  dialog.sheet[open] { animation: sheet-in var(--dur-slow) var(--ease-out); }
+  dialog.sheet::backdrop { background: var(--scrim); }
+  @keyframes sheet-in { from { opacity: 0; transform: scale(0.95); } }
+  .sheet-body { padding: var(--space-5) var(--space-5) var(--space-3); display: grid; gap: var(--space-2); }
+  .sheet-actions { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-3) var(--space-4) var(--space-4); }
+
+  /* ---- portrait touch screen frame */
+  .frame { width: min(100%, 320px); aspect-ratio: 9 / 16; border: 8px solid var(--line-strong); border-radius: var(--radius-xl); background: var(--bg);
+    padding: var(--space-4); display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-3); overflow: hidden; }
+  .frame .btn { min-height: var(--hit-kiosk); width: 100%; }
+  .frame .stack { display: grid; gap: var(--space-2); align-content: start; }
+  .frame .card { padding: var(--space-3) var(--space-4); border-radius: var(--radius); }
+
+  .target { position: relative; display: inline-grid; place-items: center; width: var(--hit-min); height: var(--hit-min); }
+  .target::before { content: ""; position: absolute; inset: 0; border: 1px dashed var(--accent); border-radius: var(--radius-sm); }
+  .target i { width: 20px; height: 20px; border-radius: 50%; background: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce) { .light { animation: none !important; } }
+</style>
+</head>
+<body>
+<header class="bar">
+  <h3>Style guide</h3>
+  <nav aria-label="Sections">
+    <a href="#type">Type</a><a href="#color">Color</a><a href="#shape">Shape</a><a href="#controls">Controls</a><a href="#status">Status</a><a href="#motion">Motion</a><a href="#floating">Floating</a><a href="#touch">Touch</a>
+  </nav>
+  <div class="seg" role="tablist" aria-label="Theme" id="theme">
+    <button role="tab" data-t="auto" aria-selected="true">Auto</button>
+    <button role="tab" data-t="light" aria-selected="false">Light</button>
+    <button role="tab" data-t="dark" aria-selected="false">Dark</button>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h1>One quiet system, warm and legible.</h1>
+    <p class="lede">Opaque cards on a warm ground, glass only where something floats, one accent, motion that answers a touch and never performs. Every value on this page comes from <code>tokens.css</code>.</p>
+  </section>
+
+  <section id="type">
+    <h2>Type</h2>
+    <div class="card">
+      <span class="label">Hero reading</span>
+      <div class="reading">21.5<span style="font-size:.4em;color:var(--text-dim)"> °C</span></div>
+      <span class="label">Heading</span>
+      <h1>Good evening</h1>
+      <span class="label">Body</span>
+      <p>Sentences are set in the text face at a comfortable measure. Numbers that change are tabular, so they hold their width while they tick.</p>
+      <span class="label">Mono</span>
+      <code>--text-md · clamp(0.9375rem, 0.9rem + 0.25vw, 1.0625rem)</code>
+    </div>
+  </section>
+
+  <section id="color">
+    <h2>Color</h2>
+    <div class="grid">
+      <div class="sw"><i style="--v:var(--bg)"></i><b>Ground</b><small>--bg</small></div>
+      <div class="sw"><i style="--v:var(--bg-raised)"></i><b>Card</b><small>--bg-raised</small></div>
+      <div class="sw"><i style="--v:var(--bg-sunken)"></i><b>Well</b><small>--bg-sunken</small></div>
+      <div class="sw"><i style="--v:var(--accent)"></i><b>Accent</b><small>--accent</small></div>
+      <div class="sw"><i style="--v:var(--counter)"></i><b>Counter</b><small>--counter</small></div>
+      <div class="sw"><i style="--v:var(--ok)"></i><b>Good</b><small>--ok</small></div>
+      <div class="sw"><i style="--v:var(--warn)"></i><b>Attention</b><small>--warn</small></div>
+      <div class="sw"><i style="--v:var(--bad)"></i><b>Problem</b><small>--bad</small></div>
+    </div>
+  </section>
+
+  <section id="shape">
+    <h2>Shape and depth</h2>
+    <div class="radii">
+      <i style="--r:var(--radius-xs)">xs</i><i style="--r:var(--radius-sm)">sm</i><i style="--r:var(--radius)">md</i><i style="--r:var(--radius-lg)">lg</i><i style="--r:var(--radius-xl)">xl</i><i style="--r:var(--radius-full)">full</i>
+    </div>
+    <div class="grid">
+      <div class="card lift"><h3>Card</h3><p>Opaque, hairline, soft shadow. Lifts a little when pointed at.</p></div>
+      <div class="card" style="box-shadow:var(--shadow-elevated)"><h3>Floating</h3><p>The deepest shadow, for what sits above the page.</p></div>
+      <div class="card" style="background:var(--bg-sunken);box-shadow:var(--inset)"><h3>Well</h3><p>Carved in: fields, tracks, anything content goes into.</p></div>
+    </div>
+  </section>
+
+  <section id="controls">
+    <h2>Controls</h2>
+    <div class="card">
+      <div class="row">
+        <button class="btn primary">Primary</button>
+        <button class="btn">Secondary</button>
+        <button class="btn quiet">Quiet</button>
+        <button class="btn danger">Remove</button>
+        <button class="btn" disabled>Disabled</button>
+      </div>
+      <div class="row">
+        <div class="seg" role="tablist" aria-label="Range" id="range">
+          <button role="tab" aria-selected="true">Day</button><button role="tab" aria-selected="false">Week</button><button role="tab" aria-selected="false">Month</button>
+        </div>
+        <label class="row" style="gap:var(--space-3)"><span class="switch"><input type="checkbox" checked><span class="track"></span><span class="knob"></span></span><span>Notifications</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section id="status">
+    <h2>Status</h2>
+    <div class="grid">
+      <div class="card"><div class="tile"><span class="light ok"></span><div><strong>All good</strong><br><span>2.4 s pulse</span></div></div></div>
+      <div class="card"><div class="tile"><span class="light busy"></span><div><strong>Working</strong><br><span>1.6 s pulse</span></div></div></div>
+      <div class="card"><div class="tile"><span class="light bad"></span><div><strong>Needs you</strong><br><span>0.9 s pulse</span></div></div></div>
+      <div class="card"><div class="tile"><span class="light idle"></span><div><strong>Off</strong><br><span>No pulse</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="motion">
+    <h2>Motion</h2>
+    <div class="card">
+      <div class="row"><button class="btn" id="play">Play curves</button><p>Nothing overshoots.</p></div>
+      <div class="curve" style="--c:var(--ease-out)"><span class="label">ease-out · entering, answering a press</span><div class="lane"><span class="dot"></span></div></div>
+      <div class="curve" style="--c:var(--ease-in-out)"><span class="label">ease-in-out · moving on screen</span><div class="lane"><span class="dot"></span></div></div>
+      <div class="curve" style="--c:var(--ease)"><span class="label">ease · hover and color</span><div class="lane"><span class="dot"></span></div></div>
+    </div>
+    <div class="grid enter-demo" id="enter"><div class="card"><h3>One</h3><p>Arrives from 12px below.</p></div><div class="card"><h3>Two</h3><p>80ms later.</p></div><div class="card"><h3>Three</h3><p>Then 80ms again.</p></div></div>
+    <button class="btn" id="replay">Replay entrance</button>
+  </section>
+
+  <section id="floating">
+    <h2>Floating layer</h2>
+    <div class="toast"><span class="light ok"></span><div><strong>Saved</strong><p>Toasts never ask for anything.</p></div></div>
+    <div><button class="btn" id="open-sheet">Open a sheet</button></div>
+    <dialog class="sheet" id="sheet">
+      <div class="sheet-body"><h2>Remove this?</h2><p>The sheet says what will happen before the button that does it. Escape, the backdrop and Cancel all do nothing.</p></div>
+      <div class="sheet-actions"><button class="btn quiet" id="close-sheet">Cancel</button><button class="btn danger">Remove</button></div>
+    </dialog>
+  </section>
+
+  <section id="touch">
+    <h2>Touch and portrait screens</h2>
+    <p class="lede">Targets are at least 44px, 56px on a wall or kiosk screen, with 8px between them. The dashed outline is the tappable area.</p>
+    <div class="row" style="align-items:flex-start;gap:var(--space-6)">
+      <div class="frame">
+        <div class="row" style="justify-content:space-between"><h3>Home</h3><span class="label">9:16</span></div>
+        <div class="stack">
+          <div class="card"><div class="tile"><span class="light ok"></span><strong>Living room</strong></div></div>
+          <div class="card"><div class="tile"><span class="light busy"></span><strong>Garage</strong></div></div>
+          <div class="card"><div class="tile"><span class="light idle"></span><strong>Porch</strong></div></div>
+        </div>
+        <button class="btn primary">Everything off</button>
+      </div>
+      <div class="card" style="max-width:320px"><h3>Hit area</h3><p>The icon can stay small. The area around it is what counts.</p><span class="target"><i></i></span></div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const root = document.documentElement;
+  const themeBtns = document.querySelectorAll('#theme button');
+  function setTheme(t) {
+    if (t === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', t);
+    themeBtns.forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === t)));
+  }
+  themeBtns.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.t)));
+  document.querySelectorAll('#range button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#range button').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+  }));
+  document.getElementById('play').addEventListener('click', () => {
+    document.querySelectorAll('.curve').forEach(c => { c.classList.remove('go'); void c.offsetWidth; });
+    requestAnimationFrame(() => document.querySelectorAll('.curve').forEach(c => c.classList.add('go')));
+  });
+  document.getElementById('replay').addEventListener('click', () => {
+    const e = document.getElementById('enter'); e.classList.remove('enter-demo'); void e.offsetWidth; e.classList.add('enter-demo');
+  });
+  const sheet = document.getElementById('sheet');
+  document.getElementById('open-sheet').addEventListener('click', () => sheet.showModal());
+  document.getElementById('close-sheet').addEventListener('click', () => sheet.close());
+</script>
+</body>
+</html>

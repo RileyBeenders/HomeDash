@@ -1,0 +1,8 @@
+---
+description: "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get..."
+argument-hint: "[what to apply it to]"
+---
+
+Use the `grill-me` skill (`.claude/skills/grill-me/SKILL.md`) and follow it exactly.
+
+Arguments: $ARGUMENTS

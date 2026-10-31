@@ -1,0 +1,64 @@
+site_name: HomeDash
+site_description: Home dashboard hosted on one PC and shown on small touch displays.
+docs_dir: ../docs
+site_dir: ../site
+use_directory_urls: false
+
+# No "Made with" footer link: a kiosk screen cannot close a new tab.
+extra:
+  generator: false
+
+theme:
+  name: material
+  custom_dir: overrides
+  # System faces, not Google Fonts: the docs are served on a LAN with no internet.
+  font: false
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+
+extra_css:
+  - assets/brand.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+
+nav:
+  - Home: index.md
+  - Design language:
+      - design/index.md
+      - design/color.md
+      - design/typography.md
+      - design/shape-and-depth.md
+      - design/motion.md
+      - design/components.md
+      - design/touch-and-displays.md
+      - design/accessibility.md
+  - System:
+      - system/overview.md
+  - Workflow:
+      - workflow/skills-and-commands.md

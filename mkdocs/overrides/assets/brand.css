@@ -1,0 +1,44 @@
+/* Pulls mkdocs-material onto the design language (docs/assets/tokens.css) so the
+ * documentation does not look like a different product. Same hexes, system
+ * faces only. Lives in the theme overrides so any docs folder gets it. */
+
+:root {
+  --md-primary-fg-color: #b3411c;
+  --md-primary-fg-color--light: #c9582f;
+  --md-primary-fg-color--dark: #963515;
+  --md-primary-bg-color: #ffffff;
+  --md-default-bg-color: #f6f1ea;
+  --md-default-fg-color: #26211c;
+  --md-accent-fg-color: #b3411c;
+  --md-accent-fg-color--transparent: rgba(179, 65, 28, 0.1);
+  --md-typeset-a-color: #b3411c;
+
+  --md-text-font: "Segoe UI Variable Text", "Segoe UI", system-ui;
+  --md-code-font: "Cascadia Mono", "SF Mono", Consolas;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #26211d;
+  --md-default-bg-color: #1b1714;
+  --md-default-fg-color: #f4ede4;
+  --md-accent-fg-color: #f2916a;
+  --md-accent-fg-color--transparent: rgba(242, 145, 106, 0.14);
+  --md-typeset-a-color: #f2916a;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-header__title,
+.md-nav__title,
+.md-tabs__link {
+  font-family: "Avenir Next", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 { font-weight: 650; }
+.md-typeset strong { font-weight: 600; }
+.md-typeset table:not([class]) td { font-variant-numeric: tabular-nums; }
