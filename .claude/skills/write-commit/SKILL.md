@@ -7,6 +7,10 @@ description: Write a GitHub Desktop-ready commit summary and bulleted descriptio
 
 Draft a commit message for the changes prepped in the current repo. Output it in chat only so it can be pasted into GitHub Desktop.
 
+## Branch name
+
+- First run the check in the `branch-name` skill (`.claude/skills/branch-name/SKILL.md`). If the name is off, follow its steps to recommend a rename, then continue with the commit message under whichever name the user keeps
+
 ## Gather changes
 
 - Review the current conversation first: every edit made, file touched, bug fixed, and the reason behind each

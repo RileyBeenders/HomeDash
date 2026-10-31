@@ -61,4 +61,5 @@ nav:
   - System:
       - system/overview.md
   - Workflow:
+      - workflow/version-control.md
       - workflow/skills-and-commands.md

@@ -15,6 +15,11 @@ Draft the text for merging a branch: a PR title and description to paste into Gi
 - If they correct either branch, use their branches instead
 - Stop if the source and target are the same branch, or if the source has no commits that the target lacks
 
+## Branch name
+
+- After the user confirms the merge, run the check in the `branch-name` skill (`.claude/skills/branch-name/SKILL.md`) on the source branch, so the name in the merge commit follows the convention. If it is off, follow that skill's steps to recommend a rename, and use the name the user keeps in the merge text
+- After the output, if the merge is done, run the skill's "After a merge" step
+
 ## Gather changes
 
 - Run `git fetch origin <target>` (skip it if that fails) and compare against `origin/<target>`, or the local `<target>` if there is no remote

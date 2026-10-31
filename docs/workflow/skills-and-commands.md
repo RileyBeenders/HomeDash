@@ -42,6 +42,7 @@ Artifacts are saved in `.design/<feature>/`.
 
 | Command | Use it to |
 | --- | --- |
+| `/branch-name` | Check the branch name and recommend a rename (also runs inside `/write-commit` and `/write-merge`) |
 | `/write-commit` | Draft a commit message (output in chat) |
 | `/write-merge` | Draft a PR and merge text |
 | `/update-version-history` | Add merged PRs to `VERSION_HISTORY.md` |
