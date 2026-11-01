@@ -1,4 +1,5 @@
 site/
+# Data stays on the devices (docs/workflow/data-boundary.md)
 data/
 .reference-temp/
 __pycache__/

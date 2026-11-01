@@ -9,6 +9,8 @@
 - Merge with a **merge commit**, never squash or rebase, so `main` keeps one entry per branch (`git log --first-parent main`) and [the release log](#release-log) can be built from it.
 - Don't commit to `main` directly. The exception is the scaffold phase (layout, docs, tooling, before any app code exists); it ends when the first `feature/` branch is opened.
 - Never force-push `main`. Force-push your own branch only before anyone else has pulled it.
+- Nothing that is data goes in a branch. Data stays on the devices; see [Data boundary](data-boundary.md).
+- Servers on the `stable` channel follow `main` and update themselves, so a merge to `main` reaches them. See [Updates](../system/updates.md).
 
 ## Branch names
 
@@ -20,7 +22,7 @@
 | --- | --- | --- |
 | `feature/` | A user-visible addition | `0007-feature/clock-card` |
 | `fix/` | A bug fix | `0008-fix/kiosk-reconnect` |
-| `design/` | Tokens, components, style guide | `0009-design/dark-palette-contrast` |
+| `design/` | Tokens, components, style guide, and designs for how the system works before it is built | `0009-design/dark-palette-contrast` |
 | `docs/` | Docs only | `0010-docs/display-setup` |
 | `chore/` | Tooling, config, dependencies | `0011-chore/gitignore-site` |
 
