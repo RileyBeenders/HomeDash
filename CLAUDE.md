@@ -9,7 +9,7 @@ HomeDash: a home dashboard hosted on one PC, shown on small portrait touch displ
 - No holiday or seasonal themes.
 - Frontend: hand-written, no build step, no CDN, works offline.
 - Docs are part of the product: update `docs/` (served by MkDocs from `mkdocs/mkdocs.yml`) alongside user-visible changes.
-- `main` is stable. Work on a `<type>/<name>` branch and merge by pull request with a merge commit; see `docs/workflow/version-control.md`. Commit to `main` directly only during the scaffold phase, and only when asked.
+- `main` is stable. Work on a `NNNN-<type>/<name>` branch (the number is the branch's pull request number, counting up from `0001`) and merge by pull request with a merge commit; see `docs/workflow/version-control.md`. The scaffold phase is over: never commit to `main` directly.
 - No AI attribution in any commit or pull request, anywhere in the repo: no co-author trailer, no "Generated with" line, no mention of an AI tool in a summary, description or title.
 - Windows/PowerShell is the dev shell.
 - `.reference-temp/` is a throwaway template folder and will be deleted. Never copy its data into the project.

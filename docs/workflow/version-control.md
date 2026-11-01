@@ -12,15 +12,17 @@
 
 ## Branch names
 
-`<type>/<short-kebab-description>`, lowercase, under 40 characters.
+`NNNN-<type>/<short-kebab-description>`, lowercase, under 40 characters after the number.
+
+`NNNN` is the branch's pull request number, zero-padded to four digits, so branches, pull requests and the release log all count up together: the first branch was `0001-feature/server-and-first-pages`. Before opening a branch, take one more than the highest number from `gh pr list --state all --limit 1 --json number`.
 
 | Type | For | Example |
 | --- | --- | --- |
-| `feature/` | A user-visible addition | `feature/clock-card` |
-| `fix/` | A bug fix | `fix/kiosk-reconnect` |
-| `design/` | Tokens, components, style guide | `design/dark-palette-contrast` |
-| `docs/` | Docs only | `docs/display-setup` |
-| `chore/` | Tooling, config, dependencies | `chore/gitignore-site` |
+| `feature/` | A user-visible addition | `0007-feature/clock-card` |
+| `fix/` | A bug fix | `0008-fix/kiosk-reconnect` |
+| `design/` | Tokens, components, style guide | `0009-design/dark-palette-contrast` |
+| `docs/` | Docs only | `0010-docs/display-setup` |
+| `chore/` | Tooling, config, dependencies | `0011-chore/gitignore-site` |
 
 `/branch-name` checks the current branch against this table and recommends a rename when the name or its type doesn't fit the work. It runs on its own inside `/write-commit` and `/write-merge`, and after a merge it recommends what the merged branch should have been called. It renames only when you confirm; renaming a pushed branch means pushing the new name and deleting the old one, which closes any open pull request from it.
 
@@ -29,9 +31,9 @@
 ```bash
 git switch main
 git pull
-git switch -c feature/clock-card
+git switch -c 0007-feature/clock-card
 # work, commit often
-git push -u origin feature/clock-card
+git push -u origin 0007-feature/clock-card
 # open a pull request into main
 ```
 
@@ -50,7 +52,7 @@ Keep a long-running branch current by merging `main` into it (`git merge main`),
 
 Every pull request targets `main` and has:
 
-- A title of the form `NNNN-<branch>`, for example `0001-feature/server-and-first-pages`. `NNNN` is the pull request's number, zero-padded to four digits, so titles count up by one with every pull request and the release log reads in order.
+- A title that is the branch name, for example `0001-feature/server-and-first-pages`, so the number in the title is the pull request's own number.
 - A `## Summary` grouped by area, and a `## Testing` section covering how it was checked.
 - Docs updated for anything user-visible (see the project rules in `CLAUDE.md`).
 - UI changes checked in light and dark at 375px, 768px and 1080×1920.
@@ -58,7 +60,7 @@ Every pull request targets `main` and has:
 
 The template in `.github/pull_request_template.md` fills this in. `/write-merge` drafts the title, description and merge commit text.
 
-Merge commit summary: `Merge <branch>: <what it does>`.
+Merge commit summary: `Merge <branch>: <what it does>`, with the branch's number: `Merge 0001-feature/server-and-first-pages: homedash server and first pages`.
 
 ## Release log
 
