@@ -34,8 +34,8 @@
     display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
     padding: var(--space-3) max(var(--safe-x), env(safe-area-inset-left));
     background: var(--glass-fill);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
-    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    -webkit-backdrop-filter: var(--glass-filter);
+    backdrop-filter: var(--glass-filter);
     border-bottom: 1px solid var(--glass-line);
   }
   .bar nav { display: flex; gap: var(--space-1); flex-wrap: wrap; }
@@ -133,11 +133,11 @@
   /* ---- toast + sheet */
   .toast { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius);
     background: var(--glass-fill-strong); border: 1px solid var(--glass-line); box-shadow: var(--shadow-elevated);
-    -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur)); max-width: 46ch; }
+    -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); max-width: 46ch; }
   .toast .light { --light-size: 12px; margin-top: 6px; animation: none; }
   dialog.sheet { width: min(460px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--glass-line); border-radius: var(--radius-xl);
     background: var(--glass-fill-strong); color: var(--text); box-shadow: var(--shadow-elevated);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)); backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)); }
+    -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); }
   dialog.sheet[open] { animation: sheet-in var(--dur-slow) var(--ease-out); }
   dialog.sheet::backdrop { background: var(--scrim); }
   @keyframes sheet-in { from { opacity: 0; transform: scale(0.95); } }
@@ -155,6 +155,38 @@
   .target::before { content: ""; position: absolute; inset: 0; border: 1px dashed var(--accent); border-radius: var(--radius-sm); }
   .target i { width: 20px; height: 20px; border-radius: 50%; background: var(--text-dim); }
 
+  /* ---- scrollbar: thick, always on, draggable */
+  .scroller { height: 220px; overflow-y: scroll; padding-right: var(--space-4); scrollbar-width: auto; scrollbar-color: var(--text-faint) var(--bg-sunken); }
+  .scroller::-webkit-scrollbar { width: var(--scrollbar-w); }
+  .scroller::-webkit-scrollbar-track { background: var(--bg-sunken); border-radius: var(--radius-full); box-shadow: var(--inset); }
+  .scroller::-webkit-scrollbar-thumb { min-height: var(--scrollbar-thumb-min); background: var(--text-faint); border: 5px solid var(--bg-sunken);
+    background-clip: padding-box; border-radius: var(--radius-full); }
+  .scroller p + p { margin-top: var(--space-3); }
+
+  /* ---- image ground, pager, page dots */
+  .stage { --image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 640' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='360' height='640' fill='%23c98b62'/%3E%3Ccircle cx='240' cy='210' r='64' fill='%23f0c9a0'/%3E%3Cpath d='M0 360 Q110 290 220 350 T360 330 V640 H0Z' fill='%238a5a44'/%3E%3Cpath d='M0 440 Q130 380 250 440 T360 420 V640 H0Z' fill='%235e3f35'/%3E%3Cpath d='M0 530 Q120 490 240 535 T360 520 V640 H0Z' fill='%233b2a28'/%3E%3C/svg%3E");
+    position: relative; width: min(100%, 320px); aspect-ratio: 9 / 16; border-radius: var(--radius-xl); overflow: hidden;
+    border: 8px solid var(--line-strong); background: var(--image) center / cover; isolation: isolate; }
+  .stage::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: rgba(var(--shade-rgb), var(--image-dim)); }
+  .pager { position: absolute; inset: 0; z-index: 1; display: flex; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .pager::-webkit-scrollbar { display: none; }
+  .page { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; display: grid; align-content: start; gap: var(--space-2);
+    padding: calc(var(--hit-kiosk) + var(--space-5)) var(--space-4) calc(var(--hit-min) + var(--space-7)); }
+  .page .card { padding: var(--space-3) var(--space-4); border-radius: var(--radius); }
+  .page .reading { font-size: var(--text-xl); }
+  .glass { background: var(--glass-fill); border: 1px solid var(--glass-line); box-shadow: var(--shadow-soft);
+    -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); }
+  .gear { position: absolute; top: var(--space-3); right: var(--space-3); z-index: 2; width: var(--hit-kiosk); height: var(--hit-kiosk);
+    display: grid; place-items: center; border-radius: 50%; color: var(--text); cursor: pointer; padding: 0;
+    transition: transform var(--dur-press) var(--ease-out); touch-action: manipulation; }
+  .gear:active { transform: scale(var(--press-scale-icon)); }
+  .gear:focus-visible, .dots button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .dots { position: absolute; bottom: var(--space-4); left: 50%; transform: translateX(-50%); z-index: 2; display: flex; border-radius: var(--radius-full); padding: 0 var(--space-2); }
+  .dots button { display: grid; place-items: center; min-width: var(--hit-min); height: var(--hit-min); border: 0; background: transparent; padding: 0; cursor: pointer; touch-action: manipulation; border-radius: var(--radius-full); }
+  .dots i { width: var(--pager-dot); height: var(--pager-dot); border-radius: var(--radius-full); background: var(--text-faint); transition: background-color var(--dur-normal) var(--ease); }
+  .dots button[aria-current="true"] i { width: var(--pager-dot-active); background: var(--accent); }
+
   @media (prefers-reduced-motion: reduce) { .light { animation: none !important; } }
 </style>
 </head>
@@ -162,7 +194,7 @@
 <header class="bar">
   <h3>Style guide</h3>
   <nav aria-label="Sections">
-    <a href="#type">Type</a><a href="#color">Color</a><a href="#shape">Shape</a><a href="#controls">Controls</a><a href="#status">Status</a><a href="#motion">Motion</a><a href="#floating">Floating</a><a href="#touch">Touch</a>
+    <a href="#type">Type</a><a href="#color">Color</a><a href="#shape">Shape</a><a href="#controls">Controls</a><a href="#status">Status</a><a href="#motion">Motion</a><a href="#floating">Floating</a><a href="#pages">Pages</a><a href="#touch">Touch</a>
   </nav>
   <div class="seg" role="tablist" aria-label="Theme" id="theme">
     <button role="tab" data-t="auto" aria-selected="true">Auto</button>
@@ -268,6 +300,30 @@
     </dialog>
   </section>
 
+  <section id="pages">
+    <h2>Pages and scrolling</h2>
+    <p class="lede">Swipe sideways to change page. The picture is the ground, the cards are opaque, and only the gear and the dots are glass. A long page gets a thick bar on the right.</p>
+    <div class="row" style="align-items:flex-start;gap:var(--space-6)">
+      <div class="stage" id="stage">
+        <div class="pager" id="pager">
+          <div class="page"><div class="card"><span class="label">Now</span><div class="reading">19:42</div></div><div class="card"><div class="tile"><span class="light ok"></span><strong>Home</strong></div></div></div>
+          <div class="page"><div class="card"><span class="label">Outside</span><div class="reading">21<span style="font-size:.5em;color:var(--text-dim)"> °C</span></div></div><div class="card"><div class="tile"><span class="light busy"></span><strong>Garage</strong></div></div></div>
+          <div class="page"><div class="card"><div class="tile"><span class="light idle"></span><strong>Porch</strong></div></div></div>
+        </div>
+        <button class="gear glass" aria-label="Settings"><svg width="26" height="26" viewBox="-12 -12 24 24" fill="currentColor" aria-hidden="true"><rect x="-2" y="-10.5" width="4" height="21" rx="1.5"/><rect x="-2" y="-10.5" width="4" height="21" rx="1.5" transform="rotate(45)"/><rect x="-2" y="-10.5" width="4" height="21" rx="1.5" transform="rotate(90)"/><rect x="-2" y="-10.5" width="4" height="21" rx="1.5" transform="rotate(135)"/><circle r="7"/><circle r="3" fill="var(--glass-fill-strong)"/></svg></button>
+        <div class="dots glass" id="dots" role="group" aria-label="Pages"></div>
+      </div>
+      <div style="display:grid;gap:var(--gap);max-width:320px;flex:1 1 240px">
+        <div class="card"><h3>Scrollbar</h3>
+          <div class="scroller" tabindex="0" aria-label="Scrolling example">
+            <p>The bar is 24px wide, always showing, and the thumb never gets shorter than 72px.</p><p>Drag it with a finger.</p><p>Tap the track to page.</p><p>Keep going.</p><p>More below.</p><p>Nearly there.</p><p>That is the end.</p>
+          </div>
+        </div>
+        <label class="row card" style="gap:var(--space-3);flex-wrap:nowrap"><span class="switch"><input type="checkbox" id="low"><span class="track"></span><span class="knob"></span></span><span>Low quality: glass turns solid</span></label>
+      </div>
+    </div>
+  </section>
+
   <section id="touch">
     <h2>Touch and portrait screens</h2>
     <p class="lede">Targets are at least 44px, 56px on a wall or kiosk screen, with 8px between them. The dashed outline is the tappable area.</p>
@@ -307,6 +363,22 @@
   const sheet = document.getElementById('sheet');
   document.getElementById('open-sheet').addEventListener('click', () => sheet.showModal());
   document.getElementById('close-sheet').addEventListener('click', () => sheet.close());
+  const pager = document.getElementById('pager'), dots = document.getElementById('dots');
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  for (let i = 0; i < pager.children.length; i++) {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Page ' + (i + 1)); b.innerHTML = '<i></i>';
+    b.addEventListener('click', () => pager.scrollTo({ left: i * pager.clientWidth, behavior: still.matches ? 'auto' : 'smooth' }));
+    dots.appendChild(b);
+  }
+  function syncDots() {
+    const at = Math.round(pager.scrollLeft / pager.clientWidth);
+    [...dots.children].forEach((b, i) => { if (i === at) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+  }
+  pager.addEventListener('scroll', syncDots, { passive: true }); syncDots();
+  document.getElementById('low').addEventListener('change', e => {
+    if (e.target.checked) root.setAttribute('data-quality', 'low'); else root.removeAttribute('data-quality');
+  });
 </script>
 </body>
 </html>

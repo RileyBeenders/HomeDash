@@ -30,4 +30,19 @@ Concentric: a control inside a container takes the next step down.
 
 ## Glass
 
-`--glass-fill` with `backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat))` and a `--glass-line` hairline. Only on the functional layer: top bar, sheet, toast, popover. Sheets and toasts use `--glass-fill-strong` so text stays solid. A control may turn to glass while it is held (a switch knob), and only then.
+`--glass-fill` with `backdrop-filter: var(--glass-filter)` (blur `--glass-blur`, saturation `--glass-sat`) and a `--glass-line` hairline. Only on the functional layer: top bar, sheet, toast, popover, page dots, overview strip. Sheets and toasts use `--glass-fill-strong` so text stays solid. A control may turn to glass while it is held (a switch knob), and only then.
+
+Never write the blur out by hand: components use `--glass-filter` so one switch can turn glass off. Keep at most two glass layers on screen at once.
+
+### Low quality
+
+`<html data-quality="low">` sets `--glass-filter: none` and makes `--glass-fill` the solid `--glass-fill-strong`. The look is the same without the blur. The page sets it when a device can't hold its frame rate.
+
+## Image ground
+
+The ground can be an opaque photograph or picture, covering the screen (`background-size: cover`, fixed, never scrolling with the page).
+
+- Darken it with `rgba(var(--shade-rgb), var(--image-dim))` laid over the image. `--image-dim` is light by day and heavy by night, which also protects a display that stays on all night.
+- Cards and readings stay opaque on top of it; only the functional layer is glass.
+- Pick or crop images with calm, low-contrast areas where glass sits. Check text on glass at AA over the brightest and darkest parts of the image.
+- Without an image, the ground is `--bg` with the `--ambient` light.

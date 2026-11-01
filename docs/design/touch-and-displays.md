@@ -22,6 +22,24 @@ A glyph may be 20px; the tappable area around it is what counts.
 - Layout holds for days: no layout shift, no looping decorative motion, no burn-in static bright edges (dark palette by default at night).
 - Recover alone: a screen that loses its server shows a calm "reconnecting" state and retries.
 
+## Resolution
+
+- Layout follows the space available (`auto-fill` grids, fluid type, `dvh`/`dvw`), never a device name. Breakpoints are by width and orientation, not by model.
+- A page fills the screen at 9:16 first. A landscape screen adds columns; the order does not change.
+- Nothing is sized in fixed pixels except hit targets, hairlines and radii (all tokens).
+
+## Scrolling
+
+- A page taller than the screen scrolls vertically with the thick **scrollbar** on the right (see [Components](components.md)). Native scrollbars on touch screens are thin and fade away, so the app draws its own and checks it on real hardware.
+- The bar is a drag handle as well as an indicator. Dragging the thumb scrolls; tapping the track pages up or down.
+- Prefer a page that fits. Scroll only when content genuinely runs long.
+
+## Swiping
+
+- Pages sit side by side and swipe horizontally with snap. See Pager in [Components](components.md).
+- Horizontal and vertical gestures lock to the axis they start on, so scrolling a long page never changes the page.
+- A carousel timer may move pages on its own; touch pauses it.
+
 ## Phones
 
 - `viewport-fit=cover` and `env(safe-area-inset-*)` padding.

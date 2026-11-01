@@ -16,6 +16,11 @@ All of these are live in the [style guide](../assets/style-guide.html).
 | **Toast** | Glass strong, `--radius`, bottom corner, never asks for anything, auto-dismisses. |
 | **Sheet** | Native `<dialog>`, glass strong, `--radius-xl`, says what will happen before the button that does it. Escape, backdrop and Cancel do nothing. |
 | **Field** | Sunken well, 1px `--line`, 44px min, 16px text. |
+| **Scrollbar** | Always visible on the right when the page overflows. `--scrollbar-w` (24px) wide, `--bg-sunken` track, `--text-faint` thumb, thumb at least `--scrollbar-thumb-min` long, pill ends. Draggable with a finger. Hidden when nothing overflows. |
+| **Pager** | Full-screen pages in a row, `scroll-snap-type: x mandatory`, one page per swipe. Vertical scroll inside a page is independent; a gesture locks to its starting axis. |
+| **Page dots** | Glass pill at the bottom. `--pager-dot` dots, the active one stretches to `--pager-dot-active`. Each dot has a `--hit-min` target. Tapping the pill opens the overview. |
+| **Overview strip** | Glass strip of small page previews, current page ringed in `--accent`. Tap one to jump to it; tap outside to close. |
+| **Settings gear** | Quiet icon button, top right, `--hit-kiosk` target on kiosk screens, opens the settings sheet. Not a primary action. |
 
 ## States every interactive component needs
 

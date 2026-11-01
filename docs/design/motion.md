@@ -32,6 +32,8 @@ Motion answers a touch or explains a change. It never performs, and nothing over
 | Toast | Rise 8px and fade, `--dur-slow` |
 | Switch | Knob slides 20px, `--dur-normal`, `--ease-out` |
 | Segmented thumb | Background and shadow, `--dur-normal` |
+| Page swipe | Follows the finger, snaps with `--dur-slow` `--ease-out`. Carousel advance uses `--dur-slower` `--ease-in-out`. |
+| Page dots | Active dot swaps to the wide shape and accent color; color eases, `--dur-normal` |
 | Hover lift | `translateY(-2px)` plus `--shadow-hover`, hover devices only |
 
 ## Status pulses
