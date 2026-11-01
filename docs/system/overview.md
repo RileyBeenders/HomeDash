@@ -7,7 +7,8 @@
 - **Settings**: kept on the server and shared by every display until a display chooses its own. See [Dashboard](dashboard.md).
 - **Push, not poll**: the server tells displays when something changed over server-sent events; a display never polls.
 - **Offline**: no CDN and no web fonts; everything is served from the server. Only the server talks to the internet, for the weather.
-- **Updates**: the server updates itself on a schedule; displays pick up changes by reloading. Planned, not built.
+- **Updates**: a server on the `stable` channel (`main`) updates itself on a schedule; a server locked to a branch or a version does not. Displays pick up changes by reloading, and an update never touches saved data. Planned, not built; see [Updates](updates.md).
+- **Data**: everything an installation saves stays on its own devices and never goes into the repository. See [Data boundary](../workflow/data-boundary.md).
 - **Docs**: this site is built from `docs/` and served by the server at `/docs/`.
 
 ## In the pipeline

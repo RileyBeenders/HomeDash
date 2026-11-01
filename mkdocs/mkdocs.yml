@@ -63,6 +63,8 @@ nav:
       - system/running.md
       - system/dashboard.md
       - system/performance.md
+      - system/updates.md
   - Workflow:
       - workflow/version-control.md
+      - workflow/data-boundary.md
       - workflow/skills-and-commands.md

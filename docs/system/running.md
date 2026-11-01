@@ -41,7 +41,7 @@ The same server is the dev server. There is no separate dev mode: edit a file un
 
 ## What it writes
 
-Everything the server keeps is under `data/`, which is not in version control:
+Everything the server keeps is under `data/`, which is not in version control and is never changed by an [update](updates.md):
 
 | File | Holds |
 | --- | --- |
