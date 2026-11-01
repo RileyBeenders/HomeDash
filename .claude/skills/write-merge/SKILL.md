@@ -32,7 +32,7 @@ Draft the text for merging a branch: a PR title and description to paste into Gi
 ## Rules
 
 - No Claude co-author trailer, no "Generated with Claude Code", no AI mention of any kind, in any block
-- PR title: the source branch name, which already carries the number (`0001-feature/server-and-first-pages`). If the branch's number is not the PR's number, say so after the output. The changes are described in the description, not the title
+- PR title: the source branch name, which already carries the number (`0007-clock-card`). If the branch's number is not the PR's number, say so after the output. The changes are described in the description, not the title
 - PR description: Markdown. A `## Summary` with one `###` group per area of work, a bullet for each change, then `## Testing` covering the tests added or changed. Group by feature, not by commit
 - Merge commit summary: under 12 words, imperative, no trailing period, starting with `Merge <branch or release>:`
 - Merge commit description: 5 to 10 short bullets, one change per bullet, no filler
