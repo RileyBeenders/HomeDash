@@ -1,4 +1,5 @@
 site/
+data/
 .reference-temp/
 __pycache__/
 .venv/

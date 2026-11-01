@@ -1,0 +1,13 @@
+{
+  "name": "homedash",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Home dashboard served from one PC to small touch displays.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/server.js"
+  }
+}
