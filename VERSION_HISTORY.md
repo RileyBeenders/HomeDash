@@ -2,6 +2,7 @@
 
 | Date | Branch | Description |
 | :---: | :---: | :--- |
+| 2026-11-01 | main | 0006 glass-and-themes: liquid glass boxes, five themes, landscape grounds |
 | 2026-11-01 | main | 0005 branch-naming: drop the type prefix from branch names |
 | 2026-11-01 | main | 0004 feature/auto-updates: self-updating server with rollback |
 | 2026-11-01 | main | 0003 design/data-boundary-and-auto-updates: data rule and update channels |
