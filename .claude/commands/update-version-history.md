@@ -1,5 +1,5 @@
 ---
-description: "Add newly merged PRs to VERSION_HISTORY.md, newest first, always one release behind the branch being merged. Use on /update-version-history, or before writing a merge with /write-merge."
+description: "Add the branch being merged, and any merged PRs not yet listed, to VERSION_HISTORY.md, newest first. Run it before every PR. Use on /update-version-history, or before writing a merge with /write-merge."
 argument-hint: "[what to apply it to]"
 ---
 

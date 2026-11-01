@@ -1,11 +1,11 @@
 ---
 name: update-version-history
-description: Add newly merged PRs to VERSION_HISTORY.md, newest first, always one release behind the branch being merged. Use on /update-version-history, or before writing a merge with /write-merge.
+description: Add the branch being merged, and any merged PRs not yet listed, to VERSION_HISTORY.md, newest first. Run it before every PR. Use on /update-version-history, or before writing a merge with /write-merge.
 ---
 
 # Update Version History
 
-Keep `VERSION_HISTORY.md` (repo root) current. It lists merged PRs only, so it is always one behind: the PR that carries this update is not in the table yet, and the next update adds it.
+Keep `VERSION_HISTORY.md` (repo root) current. Every branch gets its row before its PR is opened, so the row travels in the PR it describes. Run this before every PR, and again if more work lands on the branch.
 
 ## Steps
 
@@ -16,6 +16,6 @@ Keep `VERSION_HISTORY.md` (repo root) current. It lists merged PRs only, so it i
 - Insert one row per new merge at the top, newest first: `| <date merged> | <branch merged into> | <short description> |`
 - Date is the merge commit date (`%cs`); branch is the target of the merge (`main` unless the subject or parents show otherwise)
 - Description: under 15 words, taken from the merge title with the `Merge ` prefix dropped, led by the PR's `NNNN` number from its title (see the PR title rule in `docs/workflow/version-control.md`): `0001 feature/server-and-first-pages: homedash server and first pages`
-- Never add a row for the branch currently being worked on, and never reorder or reword existing rows
+- Always add a row for the branch being worked on: today's date (`date +%F`), `main` as the target, and its `NNNN` number from the branch name (the PR number). Never reorder or reword existing rows, and never add a second row for a branch already listed
 - Keep the title `# Release Log` and the three-column table (date and branch centered, description left-aligned: `| :---: | :---: | :--- |`); add nothing else to the file
 - Don't commit or push

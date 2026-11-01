@@ -66,7 +66,7 @@ Merge commit summary: `Merge <branch>: <what it does>`, with the branch's number
 
 ## Release log
 
-`VERSION_HISTORY.md` lists merged pull requests, newest first. It is always one merge behind: the pull request that updates it isn't in the table yet. Run `/update-version-history` before writing a merge.
+`VERSION_HISTORY.md` lists every branch by its number, newest first, with the date it was added and a short description. Add the branch's own row before opening its pull request, so the row merges with the work: run `/update-version-history`, then `/write-merge`.
 
 ## Tags
 
