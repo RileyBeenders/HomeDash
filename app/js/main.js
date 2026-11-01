@@ -11,7 +11,7 @@ import { createSettings } from './settings.js';
 import { startPerf } from './perf.js';
 import { createTextClock, createDateLine } from './clock.js';
 import { refreshEvents } from './calendar-data.js';
-import { state, loadSettings, loadWeather, connect, on, isKiosk } from './state.js';
+import { state, loadSettings, loadWeather, connect, on, isKiosk, pingActivity } from './state.js';
 
 // Home sits in the middle so each other page is one swipe away.
 const PAGES = ['calendar', 'home', 'weather'];
@@ -129,6 +129,7 @@ on('connection', (c) => {
 const idle = { seconds: 60, carousel: 0, timer: 0, walk: 0, dir: 1 };
 
 function interaction() {
+  pingActivity();
   clearTimeout(idle.timer);
   clearInterval(idle.walk);
   idle.walk = 0;

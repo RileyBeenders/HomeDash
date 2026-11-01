@@ -83,6 +83,24 @@ export async function setLocation(query) {
   return request('/api/location', { method: 'POST', body: { display: displayId, query } });
 }
 
+export async function loadUpdate() {
+  return request('/api/update');
+}
+
+export async function checkUpdate() {
+  return request('/api/update/check', { method: 'POST', body: {} });
+}
+
+// Tell the server a finger touched this display, so an update waits for a
+// quiet moment. At most once every 20 seconds.
+let lastPing = 0;
+export function pingActivity() {
+  const now = Date.now();
+  if (now - lastPing < 20_000) return;
+  lastPing = now;
+  request(q('/api/activity'), { method: 'POST', body: {} }).catch(() => {});
+}
+
 export async function loadWeather() {
   state.weather = await request('/api/weather');
   emit('weather', state.weather);
@@ -104,6 +122,15 @@ export function connect() {
     if (displays.includes(displayId)) loadSettings().catch(() => {});
   });
   es.addEventListener('weather', () => loadWeather().catch(() => {}));
+  // The server says which version it runs each time the stream opens. After an
+  // update (or a rollback) the number changes and the display reloads itself.
+  let version = null;
+  es.addEventListener('version', (e) => {
+    const next = safeJson(e.data).version;
+    if (version && next && next !== version) location.reload();
+    version = next || version;
+  });
+  es.addEventListener('reload', () => location.reload());
   return es;
 }
 

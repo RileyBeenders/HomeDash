@@ -28,6 +28,13 @@ export class Hub {
     this.raw(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
   }
 
+  sendTo(res, event, data = {}) {
+    res.write(`event: ${event}
+data: ${JSON.stringify(data)}
+
+`);
+  }
+
   raw(chunk) {
     for (const c of this.clients) c.res.write(chunk);
   }

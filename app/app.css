@@ -54,8 +54,11 @@ h1, h2, h3 { font-family: var(--font-display); line-height: var(--leading-tight)
 }
 .btn:active { transform: scale(var(--press-scale)); }
 .btn.quiet { background: transparent; border-color: transparent; color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: transparent; color: var(--accent-on); }
+.btn:disabled { opacity: 0.45; pointer-events: none; }
 @media (hover: hover) {
   .btn:hover { background: var(--bg-sunken); }
+  .btn.primary:hover { background: var(--accent-hover); }
   .btn.quiet:hover { background: var(--accent-soft); }
 }
 .btn[hidden] { display: none; }
@@ -378,6 +381,7 @@ body.settings-open .dots, body.settings-open .gear, body.settings-open .corner {
 .s-nav .done { grid-column: 3; justify-self: end; }
 
 .s-body { overflow-y: auto; padding: var(--space-4) var(--space-4) calc(var(--space-7) + env(safe-area-inset-bottom)); display: grid; gap: var(--space-5); align-content: start; }
+.s-sections { display: grid; gap: var(--space-5); align-content: start; }
 .s-group { display: grid; gap: var(--space-2); }
 .s-group > .label { padding-left: var(--space-2); }
 .s-rows { background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
