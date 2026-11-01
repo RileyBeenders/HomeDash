@@ -4,7 +4,7 @@ How every screen looks, moves and responds. Values live in [`tokens.css`](../ass
 
 ## Principles
 
-1. **Two layers.** The *functional layer* (bars, sheets, toasts, popovers) floats on glass. The *content layer* (cards, rows, readings) is opaque. Glass under a reading hurts legibility, so it never goes there.
+1. **Two layers.** The *functional layer* (bars, sheets, toasts, popovers, page dots) floats on glass over an opaque image ground. The *content layer* (cards, rows, readings) is opaque. Glass under a reading hurts legibility, so it never goes there.
 2. **One accent.** Warm accent for the single primary action, selection and links. A cool counterpoint for secondary data. Status colors mean status and nothing else.
 3. **Quiet depth.** A hairline and a soft shadow separate a card from the ground. No heavy borders, no gradients on surfaces.
 4. **Motion answers, never performs.** Things arrive from 12px below, presses give under a finger, nothing bounces. Faster pulses mean more urgent.
@@ -12,6 +12,8 @@ How every screen looks, moves and responds. Values live in [`tokens.css`](../ass
 6. **Readable from a distance.** Big numbers are tabular and heavy; labels are small but never below AA contrast.
 7. **Works offline.** System fonts, no CDN, no external requests.
 8. **Scales to every device.** Fluid type and `auto-fill` grids from a phone to a portrait wall display.
+9. **Few words.** A label is one or two words and a reading is a number. A screen that needs a sentence to explain itself gets redesigned.
+10. **Fluid first.** Smooth beats pretty. Effects that cost frames, glass blur first, switch off when a device can't keep up.
 
 ## Pages
 

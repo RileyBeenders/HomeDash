@@ -25,6 +25,7 @@ Artifacts are saved in `.design/<feature>/`.
 | `/redesign-existing-projects` | Upgrade something that exists |
 | `/prototype` | Compare several different versions side by side |
 | `/pick-ui-library` | Choose a library for a task |
+| `/liquid-glass` | Add refraction to the glass layer; third-party skill from [deepika-builds/liquid-glass](https://github.com/deepika-builds/liquid-glass), MIT |
 | `/mobile-native` | Make a page feel native on phones and kiosks |
 | `/apple-design`, `/emil-design-eng` | Craft philosophy references |
 

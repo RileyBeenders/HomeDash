@@ -26,6 +26,11 @@
   --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
   --text-xl: clamp(1.5rem, 1.3rem + 1vw, 2.125rem);
   --text-hero: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+  /* The clock on a wall screen is read from across a room: a step past hero. */
+  --text-clock: clamp(4rem, 2rem + 16vw, 16rem);
+  /* A kiosk screen is read from further away than a phone, so the whole type
+   * scale grows by this factor there (set on <html data-kiosk>). */
+  --kiosk-type-scale: 1.25;
   --leading-tight: 1.15;
   --leading-body: 1.5;
 
@@ -53,6 +58,15 @@
   /* Keep content this far in from the screen edge: room for shadows, and for
    * a display whose bezel crops the edge. */
   --safe-x: 24px;
+
+  /* ---------------------------------------------------------- wide layout */
+  /* A wide screen adds columns, never width. A page is a lead column and a
+   * side column; nothing stretches past these. In rem so a kiosk screen's
+   * type scale grows them too. */
+  --col-max: 55rem;    /* the lead: a month grid, the weather now */
+  --side-min: 20rem;   /* the side: a list, a strip */
+  --side-max: 30rem;
+  --cell-max: 4.5rem;  /* a day in a month grid never grows taller */
 
   /* --------------------------------------------------------------- touch */
   /* Hit targets. Visual size may be smaller; the tappable area may not. */
@@ -104,6 +118,19 @@
    * content layer (cards, rows, tables, readings) is always opaque. */
   --glass-blur: 28px;
   --glass-sat: 1.4;
+  /* Components set backdrop-filter to this, so one switch turns glass off. */
+  --glass-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+
+  /* ------------------------------------------------------------- scrolling */
+  /* A thick bar on the right, wide enough to grab with a finger. The thumb
+   * never shrinks below the minimum, however long the page is. */
+  --scrollbar-w: 24px;
+  --scrollbar-thumb-min: 72px;
+
+  /* --------------------------------------------------------------- paging */
+  /* Page dots: the dot is small, the tappable area around it is --hit-min. */
+  --pager-dot: 10px;
+  --pager-dot-active: 28px;
 }
 
 /* ============================================================ light palette */
@@ -151,6 +178,8 @@
   --glass-fill-strong: rgba(255, 253, 249, 0.95);
   --glass-line: rgba(var(--shade-rgb), 0.1);
   --scrim: rgba(38, 33, 28, 0.38);
+  /* How far a background image is darkened so glass and text stay readable. */
+  --image-dim: 0.12;
 
   --ambient: rgba(var(--accent-rgb), 0.06);
   --focus-ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
@@ -199,6 +228,7 @@
     --glass-fill-strong: rgba(38, 33, 29, 0.95);
     --glass-line: rgba(255, 244, 230, 0.12);
     --scrim: rgba(0, 0, 0, 0.55);
+    --image-dim: 0.45;
 
     --ambient: rgba(var(--accent-rgb), 0.08);
   }
@@ -246,6 +276,7 @@
   --glass-fill-strong: rgba(38, 33, 29, 0.95);
   --glass-line: rgba(255, 244, 230, 0.12);
   --scrim: rgba(0, 0, 0, 0.55);
+  --image-dim: 0.45;
 
   --ambient: rgba(var(--accent-rgb), 0.08);
   --focus-ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
@@ -259,6 +290,15 @@
     --counter-soft: rgba(var(--counter-rgb), 0.14);
     --focus-ring: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
   }
+}
+
+/* ------------------------------------------------------------ low quality */
+/* Set by the page on <html data-quality="low"> when a device can't hold its
+ * frame rate. Glass loses its blur and falls back to the solid fill; nothing
+ * else about the look changes. */
+:root[data-quality="low"] {
+  --glass-filter: none;
+  --glass-fill: var(--glass-fill-strong);
 }
 
 /* ------------------------------------------------------- reduced motion */

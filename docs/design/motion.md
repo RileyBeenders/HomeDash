@@ -32,6 +32,11 @@ Motion answers a touch or explains a change. It never performs, and nothing over
 | Toast | Rise 8px and fade, `--dur-slow` |
 | Switch | Knob slides 20px, `--dur-normal`, `--ease-out` |
 | Segmented thumb | Background and shadow, `--dur-normal` |
+| Page swipe | Follows the finger, snaps with `--dur-slow` `--ease-out`. Carousel advance uses `--dur-slower` `--ease-in-out`. |
+| Page dots | The accent thumb follows the pager's scroll position, so it moves with the finger and settles with the snap. No transition of its own. |
+| Widget to page | Pressing a Home widget scrolls the pager to its page, `--dur-slower` `--ease-in-out`, the same as a carousel advance. A finger on the pager cancels it. |
+| Flip clock | Old top half folds down over `--dur-slower / 2` with `--ease`, new bottom half folds up over the second half with `--ease-out`. `rotateX` only. |
+| Settings screen | Slides in from the right over `--dur-slow` `--ease-in-out`; the list slides a third of the way out behind it. |
 | Hover lift | `translateY(-2px)` plus `--shadow-hover`, hover devices only |
 
 ## Status pulses
@@ -51,6 +56,6 @@ A light rises and falls, it never blinks. Faster means more urgent.
 - Never animate something the user does dozens of times a day; keep it under 150ms or skip it.
 - Everything must be interruptible: retarget, don't restart.
 - Honor `prefers-reduced-motion`: tokens collapse to near-zero, pulses stop, state is shown by shape or text instead.
-- Wall displays run for days: no looping decorative animation.
+- Wall displays run for days: no looping decorative animation. The flip clock is the one exception, chosen in settings and off by default; it folds only the digit that changed and stops folding on the low tier.
 
 For building motion, use `/animate`; for critique, `/review-animations`.

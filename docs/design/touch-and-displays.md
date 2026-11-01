@@ -20,7 +20,37 @@ A glyph may be 20px; the tappable area around it is what counts.
 - No hover, no right-click, no hold-to-reveal. Everything is a tap.
 - Cursor hidden, text selection off, pull-to-refresh and pinch-zoom off.
 - Layout holds for days: no layout shift, no looping decorative motion, no burn-in static bright edges (dark palette by default at night).
+- Type is read from further away: `<html data-kiosk>` scales the root size by `--kiosk-type-scale` (see [Typography](typography.md)).
 - Recover alone: a screen that loses its server shows a calm "reconnecting" state and retries.
+
+## Resolution
+
+- Layout follows the space available (`auto-fill` grids, fluid type, `dvh`/`dvw`), never a device name. Breakpoints are by width and orientation, not by model.
+- A page fills the screen at 9:16 first. A landscape screen adds columns; the order does not change.
+- Nothing is sized in fixed pixels except hit targets, hairlines and radii (all tokens).
+
+### Wide screens add columns, never width
+
+On a landscape screen 900px or wider:
+
+1. **A page is a lead and a side.** The lead (a month grid, the weather now, the clock) is at most `--col-max`; the side (today's list, the next hours, the week and agenda) is between `--side-min` and `--side-max`. The pair is centered, everything aligns to the top and keeps its natural height.
+2. **A strip fills with items, not gaps.** A row of cells becomes an `auto-fill` grid and shows as many as fit, instead of a fixed count and empty space.
+3. **Cells and rows have a ceiling.** A day in a month grid never grows past `--cell-max`; bars and rows stop at their column's width.
+4. **The hero fits its column.** A clock sizes against the column it sits in (container units), not the screen, so it never wraps.
+
+Portrait screens are untouched by these rules.
+
+## Scrolling
+
+- A page taller than the screen scrolls vertically with the thick **scrollbar** on the right (see [Components](components.md)). Native scrollbars on touch screens are thin and fade away, so the app draws its own and checks it on real hardware.
+- The bar is a drag handle as well as an indicator. Dragging the thumb scrolls; tapping the track pages up or down.
+- Prefer a page that fits. Scroll only when content genuinely runs long.
+
+## Swiping
+
+- Pages sit side by side and swipe horizontally with snap. See Pager in [Components](components.md).
+- Horizontal and vertical gestures lock to the axis they start on, so scrolling a long page never changes the page.
+- A carousel timer may move pages on its own; touch pauses it.
 
 ## Phones
 

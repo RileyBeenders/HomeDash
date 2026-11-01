@@ -20,6 +20,9 @@ Fluid, with a floor, so a phone and a wall display both read comfortably.
 | `--text-lg` | 18 → 22px | Section headings |
 | `--text-xl` | 24 → 34px | Page headings |
 | `--text-hero` | 40 → 80px | The one big reading on a screen |
+| `--text-clock` | 64 → 256px | A clock read from across a room; one per screen, and only when it leads |
+
+A kiosk screen (`<html data-kiosk>`) multiplies the root size by `--kiosk-type-scale` (1.25), so every step above grows together on a wall display without touching a phone.
 
 ## Rules
 
