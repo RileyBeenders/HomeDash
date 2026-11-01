@@ -41,9 +41,10 @@ radius, fallbackBlur })` returns `{ supported, refresh, destroy }`.
 
 Third-party skill from the source above (MIT, see `LICENSE`), kept as published. These rules come from this repo and win over the recipe in the upstream README.
 
-- Load `design-language` first. Glass is the **functional layer only** (bars, sheets, toasts, popovers, page dots, overview strip). Cards, rows and readings stay opaque, so never call `liquidGlass()` on them
-- Dress the element with tokens, not the README's hard-coded colors: `--glass-fill` or `--glass-fill-strong`, `--glass-line`, `--radius-*`, `--shadow-elevated`. If the look needs a value with no token (a specular highlight), add the token to `docs/assets/tokens.css` and its docs page first
+- Load `design-language` first. Every box is glass here: cards, widgets, bars, pills, toasts, settings groups. Only small physical parts (flip tiles, knobs, fields) stay opaque. Call `glass(el)` on each box
+- Dress the element with tokens, not the README's hard-coded colors: `--glass-fill` or `--glass-fill-strong`, `--glass-sheen`, `--glass-specular`, `--glass-line`, `--shadow-glass`, `--radius-*`. If the look needs a value with no token (a specular highlight), add the token to `docs/assets/tokens.css` and its docs page first
 - The module writes `backdrop-filter` inline, which overrides `--glass-filter`. When the page switches to `data-quality="low"`, call `destroy()` on every instance so the solid fallback in the tokens applies; call `liquidGlass()` again only when the tier returns to high
-- Performance rules in `docs/system/performance.md` apply: at most two glass layers visible, none over ~800px a side, no `refresh()` for position-only animation
+- Performance rules in `docs/system/performance.md` apply: a box is refracted only while on or next to the screen, the quality tier drops every one when frames slip, no `refresh()` for position-only animation. The upstream advice to avoid boxes over ~800px a side is relaxed on purpose, so a wide card on a portrait wall screen still gets the effect; the tier is the safety
 - Refraction is Chromium only and decoration only. Check which browser the wall displays run before relying on it; elsewhere the frosted fallback is the design
+- The app's copy is `app/js/vendor/liquid-glass.js`, loaded by `<script>` in `app/index.html`; wire a new surface with `glass(el)` from `app/js/glass.js`, which handles low quality and only refracts boxes near the screen, and call `settleGlass()` after showing or hiding it. A surface needs a see-through fill (`--glass-fill`) or the bend is invisible
 - Use `liquid-glass.js` from this folder, copied into the app's static files. No CDN, no external requests

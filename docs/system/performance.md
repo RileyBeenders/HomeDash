@@ -7,16 +7,16 @@ The target is the display's refresh rate with no visible stutter, for days at a 
 - Animate `transform` and `opacity` only (see [Motion](../design/motion.md)).
 - Update only what changed. Write a number to the page when the value changes, not on a timer.
 - Use one `requestAnimationFrame` loop for anything per-frame. No polling under one second; the server pushes changes (server-sent events).
-- Keep two glass layers visible at most. Glass blur is the most expensive thing on the page.
+- Glass blur and refraction are the most expensive things on the page. Only boxes on or next to the screen are refracted, and the quality tier drops them all when frames slip.
 - Pages that are off screen do no work: `content-visibility: auto`, and timers and listeners paused until the page is near.
 - Images are resized on the server to the screen size, decoded off the main thread, and never larger than needed.
 - No unbounded lists. Anything that grows is capped.
 
 ## Quality tiers
 
-The page carries `data-quality="high"` or `"low"` on `<html>`. Low turns off glass blur (the floating layer falls back to its solid fill), the flip clock's fold (digits swap instead) and entrance animation, and keeps everything else. Settings choose **Auto**, **High** or **Low**; Auto starts high.
+The page carries `data-quality="high"` or `"low"` on `<html>`. Low turns off glass blur and refraction (the floating layer falls back to its solid fill), the flip clock's fold (digits swap instead) and entrance animation, and keeps everything else. Settings choose **Auto**, **High** or **Low**; Auto starts high.
 
-- **Down:** two warning windows in a row drops the tier to low. A warning window is 30 seconds (three 10-second samples) all over the p95 threshold, so one rough sample never drops the tier.
+- **Down:** two warning windows in a row drops the tier to low. A warning window is 30 seconds (three 10-second samples) all over the p95 threshold, so one rough sample never drops the tier. A gap between frames of 400ms or more is a page the browser throttled or suspended (a covered window, a pane in the background), so it is not counted; otherwise a hidden display would drop to low and stop folding the flip clock.
 - **Up:** only after ten clean minutes, and never more than once an hour, so it can't flap.
 - Every change is logged with its reason.
 

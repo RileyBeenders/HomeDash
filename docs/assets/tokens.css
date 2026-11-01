@@ -121,6 +121,19 @@
   /* Components set backdrop-filter to this, so one switch turns glass off. */
   --glass-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
 
+  /* ---------------------------------------------------------------- ground */
+  /* Pictures that can sit behind everything. A picture is deep at the top, where
+   * text sits straight on it, and light at the horizon. Text on it uses
+   * --ground-fg, which is AA over the top of every picture once the top shade
+   * and --image-dim are laid over it. */
+  --ground-sky: linear-gradient(180deg, #1d5596 0%, #3b79b8 45%, #8dbbe0 80%, #dcebf4 100%);
+  --ground-sunset: linear-gradient(180deg, #4d3358 0%, #b4505a 40%, #ee9a55 75%, #f7d08a 100%);
+  --ground-fern: linear-gradient(180deg, #1f4338 0%, #3f7660 45%, #8fb79a 80%, #cfe0c4 100%);
+  --ground-fg: #ffffff;
+  --ground-fg-dim: rgba(255, 255, 255, 0.88);
+  /* Extra shade over the top of a picture, under the text that sits there. */
+  --ground-top-dim: 0.36;
+
   /* ------------------------------------------------------------- scrolling */
   /* A thick bar on the right, wide enough to grab with a finger. The thumb
    * never shrinks below the minimum, however long the page is. */
@@ -174,9 +187,14 @@
   --shadow-elevated: 0 20px 48px rgba(var(--shade-rgb), 0.2);
   --inset: inset 0 1px 3px rgba(var(--shade-rgb), 0.14);
 
-  --glass-fill: rgba(255, 253, 249, 0.72);
-  --glass-fill-strong: rgba(255, 253, 249, 0.95);
+  --glass-fill: rgba(255, 250, 244, 0.62);
+  --glass-fill-strong: rgba(255, 250, 244, 0.88);
   --glass-line: rgba(var(--shade-rgb), 0.1);
+  /* The lit rim of the glass: a bright top edge and a faint dark bottom edge. */
+  --glass-specular: inset 0 1px 1px rgba(255, 255, 255, 0.8), inset 0 -8px 20px rgba(255, 255, 255, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  --shadow-glass: 0 18px 44px rgba(var(--shade-rgb), 0.18);
+  /* A lit upper half, so glass reads as glass even over a plain ground. */
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 60%);
   --scrim: rgba(38, 33, 28, 0.38);
   /* How far a background image is darkened so glass and text stay readable. */
   --image-dim: 0.12;
@@ -224,9 +242,12 @@
     --shadow-elevated: 0 20px 48px rgba(var(--shade-rgb), 0.6);
     --inset: inset 0 1px 3px rgba(var(--shade-rgb), 0.5);
 
-    --glass-fill: rgba(38, 33, 29, 0.66);
-    --glass-fill-strong: rgba(38, 33, 29, 0.95);
+    --glass-fill: rgba(38, 33, 29, 0.58);
+    --glass-fill-strong: rgba(38, 33, 29, 0.88);
     --glass-line: rgba(255, 244, 230, 0.12);
+    --glass-specular: inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -8px 20px rgba(255, 255, 255, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.13);
+    --shadow-glass: 0 24px 60px rgba(0, 0, 0, 0.45);
+    --glass-sheen: linear-gradient(180deg, rgba(255, 244, 230, 0.16), rgba(255, 244, 230, 0) 60%);
     --scrim: rgba(0, 0, 0, 0.55);
     --image-dim: 0.45;
 
@@ -272,9 +293,12 @@
   --shadow-elevated: 0 20px 48px rgba(var(--shade-rgb), 0.6);
   --inset: inset 0 1px 3px rgba(var(--shade-rgb), 0.5);
 
-  --glass-fill: rgba(38, 33, 29, 0.66);
-  --glass-fill-strong: rgba(38, 33, 29, 0.95);
+  --glass-fill: rgba(38, 33, 29, 0.58);
+  --glass-fill-strong: rgba(38, 33, 29, 0.88);
   --glass-line: rgba(255, 244, 230, 0.12);
+  --glass-specular: inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -8px 20px rgba(255, 255, 255, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.13);
+  --shadow-glass: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --glass-sheen: linear-gradient(180deg, rgba(255, 244, 230, 0.16), rgba(255, 244, 230, 0) 60%);
   --scrim: rgba(0, 0, 0, 0.55);
   --image-dim: 0.45;
 

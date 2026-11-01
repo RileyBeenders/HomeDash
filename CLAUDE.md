@@ -7,6 +7,7 @@ HomeDash: a home dashboard hosted on one PC, shown on small portrait touch displ
 - Before any UI work, apply the `design-language` skill: tokens in `docs/assets/tokens.css`, rules in `docs/design/`. Never hard-code a value that has a token.
 - The design language pages and tokens must not name the product.
 - No holiday or seasonal themes.
+- The house look is liquid glass: every box (card, widget, bar, pill, sheet, toast, popover, settings group) is glass, tinted by the theme, with the `--glass-specular` rim, and refracts through `app/js/glass.js`. Build every new box that way with `/liquid-glass`. Only small physical parts stay opaque: flip tiles, switch knobs, fields.
 - Frontend: hand-written, no build step, no CDN, works offline.
 - Docs are part of the product: update `docs/` (served by MkDocs from `mkdocs/mkdocs.yml`) alongside user-visible changes.
 - `main` is stable. Work on a `NNNN-<name>` branch (the number is the branch's pull request number, counting up from `0001`) and merge by pull request with a merge commit; see `docs/workflow/version-control.md`. The scaffold phase is over: never commit to `main` directly.

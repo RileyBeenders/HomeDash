@@ -40,13 +40,26 @@ In rem, so a kiosk screen's type scale grows them with the type. How they are us
 
 ## Glass
 
-`--glass-fill` with `backdrop-filter: var(--glass-filter)` (blur `--glass-blur`, saturation `--glass-sat`) and a `--glass-line` hairline. Only on the functional layer: top bar, sheet, toast, popover, page dots, overview strip. Sheets and toasts use `--glass-fill-strong` so text stays solid. A control may turn to glass while it is held (a switch knob), and only then.
+Every box is glass: cards, widgets, bars, pills, toasts, sheets and the groups inside settings. The recipe, in tokens:
 
-Never write the blur out by hand: components use `--glass-filter` so one switch can turn glass off. Keep at most two glass layers on screen at once.
+- `--glass-sheen` (a lit upper half) over `--glass-fill`, a clear tint of the theme, 62% in light and 58% in dark
+- `backdrop-filter: var(--glass-filter)` (blur `--glass-blur`, saturation `--glass-sat`)
+- a `--glass-line` hairline
+- `--glass-specular`: a bright top edge, a soft inner glow at the bottom and a 1px inner border, in `box-shadow` ahead of the depth shadow
+- `--shadow-glass` for a card, `--shadow-elevated` for a sheet or toast
+
+The theme tints the glass (`--glass-fill` comes from the palette), so a palette changes the boxes and not only the accent. Sheets and toasts use `--glass-fill-strong` (88%) because they carry text over anything. Only small physical parts stay opaque: flip tiles, switch knobs and fields.
+
+Never write the blur out by hand: components use `--glass-filter` so one switch can turn glass off.
 
 ### Refraction
 
-Glass may also bend what is behind its rim, with a faint prism fringe (liquid glass). It is decoration on the functional layer only, never meaning, and only where the browser supports it (Chromium); elsewhere the frosted glass above is the design. Use `/liquid-glass` to build it. It costs more than plain blur, so it counts toward the two-layer limit and turns off in low quality.
+Glass bends what is behind its rim, with a faint prism fringe (liquid glass), built on the module in `app/js/vendor/liquid-glass.js` and `app/js/glass.js`; use `/liquid-glass` for a new box. It is decoration, never meaning, and only where the browser supports it (Chromium); elsewhere the frosted glass above is the design.
+
+- Every box is refracted while it is on or next to the screen, and not otherwise. Large boxes are refracted too, because a wide card on a portrait wall screen is the main case; the quality tier is what keeps a weak display smooth.
+- A card uses scale -140, chroma 8 and a rim band of a tenth of its smaller side; a small pill needs more (scale -150, rim band a fifth of its height) or the bend is lost.
+- Over a plain ground there is nothing to bend, so glass carries the sheen and specular to read as glass on its own. A picture ground shows it best.
+- Text on glass must be AA over the worst backdrop. That is why the fill is 58–62% and not the 18–32% of a bare demo.
 
 ### Low quality
 
@@ -57,6 +70,20 @@ Glass may also bend what is behind its rim, with a faint prism fringe (liquid gl
 The ground can be an opaque photograph or picture, covering the screen (`background-size: cover`, fixed, never scrolling with the page).
 
 - Darken it with `rgba(var(--shade-rgb), var(--image-dim))` laid over the image. `--image-dim` is light by day and heavy by night, which also protects a display that stays on all night.
-- Cards and readings stay opaque on top of it; only the functional layer is glass.
+- Boxes on top of it are glass, so the picture shows through and bends at their rims.
 - Pick or crop images with calm, low-contrast areas where glass sits. Check text on glass at AA over the brightest and darkest parts of the image.
 - Without an image, the ground is `--bg` with the `--ambient` light.
+
+### Built-in grounds
+
+| Ground | Is | Where |
+| --- | --- | --- |
+| Plain | `--bg` and `--ambient` | tokens |
+| Meadow, Ridge | Drawn landscapes, hand-written SVG, no photographs | `app/grounds/` |
+| Sky, Sunset, Fern | Vertical gradients: `--ground-sky`, `--ground-sunset`, `--ground-fern` | tokens |
+
+- `data-ground="<name>"` on `<html>` picks one; none means Plain. Any element can carry its own, so a settings tile shows its own picture.
+- A picture is deep at the top and light at the horizon, with its clouds and sun kept away from where the clock sits. `--ground-top-dim` shades the top further, and `--image-dim` shades all of it.
+- Text sitting straight on a picture (the clock, the date, the corner clock, the gear) uses `--ground-fg` and `--ground-fg-dim`, white, which is AA over the shaded top. Anything else goes on a card.
+- Landscapes are drawn to be cropped: wide, with the horizon low, so a portrait screen keeps the middle slice and a wide one the whole. Keep a new one free of detail in the top third.
+- No photographs ship with the product. A picture of the household is data and belongs on the device, not in the repository.

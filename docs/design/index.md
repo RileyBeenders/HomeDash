@@ -4,9 +4,9 @@ How every screen looks, moves and responds. Values live in [`tokens.css`](../ass
 
 ## Principles
 
-1. **Two layers.** The *functional layer* (bars, sheets, toasts, popovers, page dots) floats on glass over an opaque image ground. The *content layer* (cards, rows, readings) is opaque. Glass under a reading hurts legibility, so it never goes there.
+1. **Liquid glass.** Every box is clear glass over the ground, tinted by the theme, with a lit rim and a soft deep shadow, and in Chromium the rim bends what is behind it. Text on glass stays AA over the worst backdrop. Only small physical parts (flip tiles, switch knobs, fields) are opaque.
 2. **One accent.** Warm accent for the single primary action, selection and links. A cool counterpoint for secondary data. Status colors mean status and nothing else.
-3. **Quiet depth.** A hairline and a soft shadow separate a card from the ground. No heavy borders, no gradients on surfaces.
+3. **Quiet depth.** A lit rim and a soft shadow separate a box from the ground. No heavy borders, no gradients on surfaces beyond the glass sheen.
 4. **Motion answers, never performs.** Things arrive from 12px below, presses give under a finger, nothing bounces. Faster pulses mean more urgent.
 5. **Touch first.** 44px targets (56px on a wall screen), 8px apart, hover is an extra and never the only signal.
 6. **Readable from a distance.** Big numbers are tabular and heavy; labels are small but never below AA contrast.

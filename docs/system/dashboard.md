@@ -9,7 +9,7 @@ What the dashboard does and the rules every screen follows. Visual rules are in 
 3. **Built for fingers.** Most displays are touch only. Nothing needs a mouse, keyboard, hover or right-click.
 4. **Visible scrolling.** A page taller than the screen shows a thick scrollbar on the right that can be grabbed and dragged.
 5. **Swipeable pages.** The dashboard is a row of full-screen pages. Swipe sideways to move between them.
-6. **A picture behind everything.** An opaque image fills the background. Menus and bars float over it as glass. (Image choice is not built yet; the ground is the plain warm color.)
+6. **A picture behind everything.** A picture fills the background and every box is glass over it. Settings → Theme → Ground picks it: Plain (the page color), two drawn landscapes (Meadow, Ridge) or three gradients (Sky, Sunset, Fern). Text that sits straight on a picture turns white and the top of the picture is shaded under it; boxes keep their own glass.
 7. **Few words.** Numbers, short labels and status lights. No sentences on a screen that is read from across a room.
 8. **Settings at the top right.** A gear opens the settings for the page you are on.
 
@@ -30,7 +30,7 @@ The row is **Calendar · Home · Weather**. Home sits in the middle so each othe
 
 ### Page dots
 
-A glass pill at the bottom middle: a Home button, then one dot per page. An accent thumb slides under the dots as the pager moves and follows the finger during a swipe. Tap a dot to go to that page, tap the house to go Home.
+A liquid glass pill at the bottom middle, bending what is behind its rim in Chromium and frosted elsewhere: a Home button, then one dot per page. An accent thumb slides under the dots as the pager moves and follows the finger during a swipe. Tap a dot to go to that page, tap the house to go Home.
 
 ### Returning home
 
@@ -47,7 +47,8 @@ The gear opens settings on the page you are on. Settings are a list of areas tha
 | **Calendar** | Week starts on Sunday or Monday |
 | **Home** | Hours 12 or 24 · Seconds · Clock style, text or flip · Time zone |
 | **Weather** | Units °F or °C · Place, typed, turned into coordinates on the server |
-| **General** | Theme auto, light or dark · Return home, off to 2 min · Carousel, off to 30 s · Quality auto, high or low |
+| **General** | Return home, off to 2 min · Carousel, off to 30 s · Quality auto, high or low |
+| **Theme** | Mode auto, light or dark · Palette: Ember, Harbor, Moss, Graphite or Rose · Ground: Plain, Meadow, Ridge, Sky, Sunset or Fern |
 | **This display** | Name · Same on all displays · Diagnostics: frames, dropped, memory, connection, quality, screen |
 
 Settings are kept on the server and are the same on every display until a display turns **Same on all displays** off; it then keeps its own copy, starting from what it had, and only its own screen changes it.
