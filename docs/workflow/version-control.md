@@ -42,6 +42,7 @@ Keep a long-running branch current by merging `main` into it (`git merge main`),
 - Summary: under 10 words, imperative, no trailing period (`Add clock card`).
 - Description: short bullets, one change per bullet, explaining what changed and why.
 - One logical change per commit. A commit that breaks the build doesn't go on a branch someone else uses.
+- No AI attribution anywhere in a commit or pull request: no co-author trailer, no "Generated with" line, no mention of an AI tool in the summary, description or title.
 
 `/write-commit` drafts both from the staged changes.
 
@@ -53,6 +54,7 @@ Every pull request targets `main` and has:
 - A `## Summary` grouped by area, and a `## Testing` section covering how it was checked.
 - Docs updated for anything user-visible (see the project rules in `CLAUDE.md`).
 - UI changes checked in light and dark at 375px, 768px and 1080×1920.
+- No AI attribution in the title or description.
 
 The template in `.github/pull_request_template.md` fills this in. `/write-merge` drafts the title, description and merge commit text.
 
