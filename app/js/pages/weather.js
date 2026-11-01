@@ -18,7 +18,7 @@ export function createWeather() {
   const days = h('div', { class: 'wx-days' });
 
   const el = h('section', { class: 'page page-weather', 'data-page': 'weather' },
-    h('div', { class: 'card wx-card' },
+    h('div', { class: 'card wx-card wx-now-card' },
       h('span', { class: 'label-row' }, place, updated),
       h('span', { class: 'wx-now' }, nowIcon, h('span', { class: 'wx-temp' }, nowTemp, nowUnit)),
       nowLabel,
@@ -28,8 +28,8 @@ export function createWeather() {
         h('span', { class: 'fact' }, h('small', {}, 'Wind'), wind),
       ),
     ),
-    h('div', { class: 'card' }, h('span', { class: 'label' }, 'Next hours'), hours),
-    h('div', { class: 'card' }, h('span', { class: 'label' }, 'Next days'), days),
+    h('div', { class: 'card wx-hours-card' }, h('span', { class: 'label' }, 'Next hours'), hours),
+    h('div', { class: 'card wx-days-card' }, h('span', { class: 'label' }, 'Next days'), days),
   );
 
   let settings = null;
@@ -68,12 +68,13 @@ export function createWeather() {
     const tf = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit', hourCycle });
     setText(updated, (w.stale ? 'Stale · ' : '') + tf.format(at));
 
-    // Hours: from the current hour, twelve ahead.
+    // Hours: from the current hour, a day ahead. A narrow screen scrolls the
+    // strip; a wide one shows as many as fit.
     const hf = new Intl.DateTimeFormat(undefined, { hour: 'numeric', hourCycle });
     const nowHour = new Date();
     nowHour.setMinutes(0, 0, 0);
     const startIdx = Math.max(0, w.hourly.time.findIndex((t) => new Date(t) >= nowHour));
-    for (let i = startIdx; i < Math.min(startIdx + 12, w.hourly.time.length); i++) {
+    for (let i = startIdx; i < Math.min(startIdx + 24, w.hourly.time.length); i++) {
       const k = weatherKind(w.hourly.weather_code[i], w.hourly.is_day[i]);
       const rain = w.hourly.precipitation_probability?.[i];
       hours.append(

@@ -23,7 +23,7 @@ The row is **Calendar · Home · Weather**. Home sits in the middle so each othe
 | **Calendar** | The month, today ringed, a dot on days with events, and everything on today. |
 | **Weather** | Now, the next twelve hours, the next six days. |
 
-- A page is one screen. It is designed at 9:16 first; a wide screen puts the calendar to the right of the clock instead of under it.
+- A page is one screen. It is designed at 9:16 first; a wide screen puts the side content (today's list, the next hours, the week and agenda) to the right of the lead (the month, the weather now, the clock) instead of under it. See [Wide screens add columns](../design/touch-and-displays.md#wide-screens-add-columns-never-width).
 - Pages swipe horizontally and snap. Vertical overflow inside a page scrolls on its own; a gesture locks to the axis it starts on.
 - On Calendar and Weather the time and date sit small in the top left.
 - The display opens on Home after a reload.

@@ -17,11 +17,11 @@ export function createCalendar() {
   const todayBtn = h('button', { class: 'btn quiet', type: 'button', onclick: () => show(new Date()) }, 'Today');
 
   const el = h('section', { class: 'page page-calendar', 'data-page': 'calendar' },
-    h('div', { class: 'card cal-card' },
+    h('div', { class: 'card cal-card lead' },
       h('div', { class: 'cal-head' }, prev, title, next, todayBtn),
       grid,
     ),
-    h('div', { class: 'card' },
+    h('div', { class: 'card side' },
       h('span', { class: 'label-row' }, listTitle, tag),
       list,
     ),

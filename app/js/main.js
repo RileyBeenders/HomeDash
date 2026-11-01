@@ -84,7 +84,14 @@ pager.jump(HOME);
 // --------------------------------------------------------------- settings
 
 const settings = createSettings({ onOpen: () => interaction(), onClose: () => interaction() });
-document.getElementById('gear').addEventListener('click', () => settings.open(PAGES[pager.index()]));
+const gear = document.getElementById('gear');
+gear.innerHTML = icon('gear');
+gear.addEventListener('click', () => settings.open(PAGES[pager.index()]));
+
+// Pages other than Home start below the corner clock, whatever size it is.
+new ResizeObserver(([entry]) => {
+  document.documentElement.style.setProperty('--corner-h', `${Math.ceil(entry.contentRect.height)}px`);
+}).observe(corner);
 
 const perf = startPerf({ onTier: () => {} });
 

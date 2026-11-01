@@ -59,6 +59,15 @@
    * a display whose bezel crops the edge. */
   --safe-x: 24px;
 
+  /* ---------------------------------------------------------- wide layout */
+  /* A wide screen adds columns, never width. A page is a lead column and a
+   * side column; nothing stretches past these. In rem so a kiosk screen's
+   * type scale grows them too. */
+  --col-max: 55rem;    /* the lead: a month grid, the weather now */
+  --side-min: 20rem;   /* the side: a list, a strip */
+  --side-max: 30rem;
+  --cell-max: 4.5rem;  /* a day in a month grid never grows taller */
+
   /* --------------------------------------------------------------- touch */
   /* Hit targets. Visual size may be smaller; the tappable area may not. */
   --hit-min: 44px;

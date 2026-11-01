@@ -29,6 +29,17 @@ A glyph may be 20px; the tappable area around it is what counts.
 - A page fills the screen at 9:16 first. A landscape screen adds columns; the order does not change.
 - Nothing is sized in fixed pixels except hit targets, hairlines and radii (all tokens).
 
+### Wide screens add columns, never width
+
+On a landscape screen 900px or wider:
+
+1. **A page is a lead and a side.** The lead (a month grid, the weather now, the clock) is at most `--col-max`; the side (today's list, the next hours, the week and agenda) is between `--side-min` and `--side-max`. The pair is centered, everything aligns to the top and keeps its natural height.
+2. **A strip fills with items, not gaps.** A row of cells becomes an `auto-fill` grid and shows as many as fit, instead of a fixed count and empty space.
+3. **Cells and rows have a ceiling.** A day in a month grid never grows past `--cell-max`; bars and rows stop at their column's width.
+4. **The hero fits its column.** A clock sizes against the column it sits in (container units), not the screen, so it never wraps.
+
+Portrait screens are untouched by these rules.
+
 ## Scrolling
 
 - A page taller than the screen scrolls vertically with the thick **scrollbar** on the right (see [Components](components.md)). Native scrollbars on touch screens are thin and fade away, so the app draws its own and checks it on real hardware.

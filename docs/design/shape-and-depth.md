@@ -17,6 +17,16 @@ Concentric: a control inside a container takes the next step down.
 
 4-8-12-16-24-32-48-72 (`--space-1` to `--space-8`). Gap between cards is `--gap` (16px). Keep content `--safe-x` (24px) from screen edges, plus `env(safe-area-inset-*)`.
 
+## Wide layout
+
+| Token | Size | Use |
+| --- | --- | --- |
+| `--col-max` | 55rem | Widest a lead column grows |
+| `--side-min`, `--side-max` | 20rem, 30rem | Range of a side column |
+| `--cell-max` | 4.5rem | Tallest a grid cell (a day) grows |
+
+In rem, so a kiosk screen's type scale grows them with the type. How they are used is in [Touch and displays](touch-and-displays.md#wide-screens-add-columns-never-width).
+
 ## Depth
 
 | Level | Token | Use |
