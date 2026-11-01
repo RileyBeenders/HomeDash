@@ -5,7 +5,7 @@
 
 import { h, clear, setText } from './dom.js';
 import { icon } from './icons.js';
-import { state, patchSettings, patchDisplay, setLocation, displayId, on } from './state.js';
+import { state, patchSettings, patchDisplay, setLocation, loadUpdate, checkUpdate, displayId, on } from './state.js';
 import { toast } from './toast.js';
 
 const WIDE = matchMedia('(min-width: 768px)');
@@ -19,6 +19,7 @@ const SECTIONS = [
   { group: 'System', items: [
     { id: 'general', title: 'General' },
     { id: 'display', title: 'This display' },
+    { id: 'updates', title: 'Updates' },
   ] },
 ];
 
@@ -157,6 +158,10 @@ export function createSettings({ onOpen, onClose }) {
         );
         break;
 
+      case 'updates':
+        renderUpdates();
+        break;
+
       case 'display': {
         const d = state.display;
         detailBody.append(
@@ -181,7 +186,110 @@ export function createSettings({ onOpen, onClose }) {
     }
   }
 
+  // ---------------------------------------------------------- updates
+
+  // The server decides everything about updating; this page only shows it and
+  // asks for a check. The channel is chosen on the host PC (data/update.json).
+  function renderUpdates() {
+    const body = h('div', { class: 's-sections' });
+    detailBody.append(body);
+    let info = null;
+    let failed = false;
+
+    const draw = () => {
+      clear(body);
+      if (!info) {
+        body.append(group('Updates', [rowNote(failed ? 'The server did not answer.' : 'Loading…')]));
+        return;
+      }
+      const status = updateStatus(info);
+      body.append(
+        group('Status', [h('div', { class: 's-row' }, h('i', { class: 'light ' + status.light, 'aria-hidden': 'true' }), h('span', { class: 's-row-title' }, status.text))]),
+        group('Version', [
+          rowValue('Channel', channelName(info)),
+          rowValue('Running', [info.version, info.running?.describe].filter(Boolean).join(' · ') || '—'),
+          rowValue('Last check', info.lastCheck ? ago(info.lastCheck.at) : 'Not yet'),
+          rowValue('Next check', info.nextCheck && info.channel === 'stable' ? clockTime(info.nextCheck) : '—'),
+        ]),
+        group('', [row('Check for updates', h('button', {
+          class: 'btn primary',
+          type: 'button',
+          disabled: info.checking,
+          onclick: check,
+        }, info.checking ? 'Checking…' : 'Check now'))]),
+        group('', [rowNote('The channel is set on the host PC. A server on Stable updates itself when no display has been touched for a few minutes.')]),
+      );
+    };
+
+    const refresh = async () => {
+      try {
+        info = await loadUpdate();
+        failed = false;
+      } catch {
+        failed = true;
+      }
+      if (alive()) draw();
+      return info;
+    };
+
+    const alive = () => dialog.open && current === 'updates' && body.isConnected;
+
+    const check = async () => {
+      try {
+        info = await checkUpdate();
+      } catch {
+        toast('Could not reach the server', 'bad');
+        return;
+      }
+      draw();
+      // The check runs on the server; read the answer when it is done.
+      for (let i = 0; i < 90 && alive(); i++) {
+        await new Promise((r) => setTimeout(r, 1000));
+        if (!(await refresh())?.checking) break;
+      }
+    };
+
+    draw();
+    refresh();
+  }
+
+  function updateStatus(info) {
+    if (info.checking) return { light: 'busy', text: 'Checking…' };
+    if (!info.valid) return { light: 'bad', text: 'data/update.json is not valid, so nothing updates' };
+    const lu = info.lastUpdate;
+    if (lu?.status === 'rolled-back') return { light: 'bad', text: `Update ${(info.rejected?.commit || lu.to || '').slice(0, 7)} did not start and was rolled back` };
+    if (lu?.status === 'stopped' || lu?.status === 'failed') return { light: 'bad', text: lu.message };
+    if (info.waiting) return { light: 'busy', text: `Update ${info.waiting.commit.slice(0, 7)} installs when displays are idle` };
+    const c = info.lastCheck;
+    if (!c) return { light: 'idle', text: 'Not checked yet' };
+    if (c.outcome === 'up-to-date') return { light: 'ok', text: 'Up to date' };
+    if (c.outcome === 'error') return { light: 'bad', text: c.message };
+    return { light: 'idle', text: c.message };
+  }
+
+  function channelName(info) {
+    if (info.channel === 'version') return `Version lock ${info.ref}`;
+    if (info.channel === 'branch') return `Branch lock ${info.ref}`;
+    return 'Stable';
+  }
+
+  function ago(iso) {
+    const s = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
+    if (s < 60) return 'Just now';
+    if (s < 3600) return `${Math.round(s / 60)} min ago`;
+    if (s < 86400) return `${Math.round(s / 3600)} h ago`;
+    return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  }
+
+  function clockTime(iso) {
+    return new Date(iso).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' });
+  }
+
   // ------------------------------------------------------------- rows
+
+  function rowValue(label, text) {
+    return row(label, h('span', { class: 's-value' }, text));
+  }
 
   function group(label, rows) {
     return h('div', { class: 's-group' }, label ? h('span', { class: 'label' }, label) : null, h('div', { class: 's-rows' }, rows));

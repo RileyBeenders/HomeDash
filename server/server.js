@@ -13,6 +13,7 @@ import { Weather } from './weather.js';
 import { eventsBetween } from './calendar.js';
 import { Hub } from './sse.js';
 import { Log } from './log.js';
+import { Updater } from './updater.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = path.join(ROOT, 'data');
@@ -22,6 +23,7 @@ const log = new Log(DATA);
 const hub = new Hub();
 const settings = new Settings(DATA);
 const weather = new Weather(DATA, log, () => hub.send('weather'));
+const updater = new Updater({ root: ROOT, data: DATA, log, hub, port: PORT });
 
 const serveStatic = staticServer([
   { prefix: '/', dir: path.join(ROOT, 'app') },
@@ -31,6 +33,7 @@ const serveStatic = staticServer([
 
 await settings.ready;
 await weather.ready;
+await updater.ready;
 log.setLevel(settings.data.logLevel);
 weather.configure(settings.data.shared.weather);
 
@@ -47,7 +50,10 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => log.info({ server: 'listening', port: PORT }));
+server.listen(PORT, () => {
+  log.info({ server: 'listening', port: PORT, version: updater.running?.short });
+  updater.start();
+});
 
 // ------------------------------------------------------------------- API
 
@@ -60,6 +66,8 @@ async function api(req, res, url) {
       // One stream per display. Opening it counts as the display checking in.
       if (displayId) settings.touch(displayId, { agent: req.headers['user-agent'] });
       hub.open(req, res, { display: displayId });
+      // A display that sees the version change after a reconnect reloads itself.
+      hub.sendTo(res, 'version', { version: updater.running?.commit || '' });
       log.info({ display: displayId, event: 'connected', clients: hub.size });
       req.on('close', () => log.info({ display: displayId, event: 'disconnected', clients: hub.size }));
       return;
@@ -135,6 +143,20 @@ async function api(req, res, url) {
       if (displayId) settings.touch(displayId);
       return json(res, { ok: true, at: Date.now() });
     }
+
+    case 'GET /api/update':
+      return json(res, await updater.status());
+
+    case 'POST /api/update/check':
+      // Starts the check and answers at once; the display reads the result
+      // from GET /api/update.
+      updater.check({ reason: 'manual' });
+      return json(res, { ...(await updater.status()), checking: true });
+
+    case 'POST /api/activity':
+      // A touch on a display. An update waits until nobody has touched one.
+      updater.activity(displayId);
+      return json(res, { ok: true });
 
     case 'POST /api/telemetry': {
       // Small batches from each display: frame time, long tasks, heap, errors.
