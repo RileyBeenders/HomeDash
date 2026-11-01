@@ -34,6 +34,10 @@ Concentric: a control inside a container takes the next step down.
 
 Never write the blur out by hand: components use `--glass-filter` so one switch can turn glass off. Keep at most two glass layers on screen at once.
 
+### Refraction
+
+Glass may also bend what is behind its rim, with a faint prism fringe (liquid glass). It is decoration on the functional layer only, never meaning, and only where the browser supports it (Chromium); elsewhere the frosted glass above is the design. Use `/liquid-glass` to build it. It costs more than plain blur, so it counts toward the two-layer limit and turns off in low quality.
+
 ### Low quality
 
 `<html data-quality="low">` sets `--glass-filter: none` and makes `--glass-fill` the solid `--glass-fill-strong`. The look is the same without the blur. The page sets it when a device can't hold its frame rate.
