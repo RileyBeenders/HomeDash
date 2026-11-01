@@ -50,7 +50,7 @@ Keep a long-running branch current by merging `main` into it (`git merge main`),
 
 Every pull request targets `main` and has:
 
-- A title naming the branch's main changes.
+- A title of the form `NNNN-<branch>`, for example `0001-feature/server-and-first-pages`. `NNNN` is the pull request's number, zero-padded to four digits, so titles count up by one with every pull request and the release log reads in order.
 - A `## Summary` grouped by area, and a `## Testing` section covering how it was checked.
 - Docs updated for anything user-visible (see the project rules in `CLAUDE.md`).
 - UI changes checked in light and dark at 375px, 768px and 1080×1920.
