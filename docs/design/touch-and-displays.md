@@ -20,6 +20,7 @@ A glyph may be 20px; the tappable area around it is what counts.
 - No hover, no right-click, no hold-to-reveal. Everything is a tap.
 - Cursor hidden, text selection off, pull-to-refresh and pinch-zoom off.
 - Layout holds for days: no layout shift, no looping decorative motion, no burn-in static bright edges (dark palette by default at night).
+- Type is read from further away: `<html data-kiosk>` scales the root size by `--kiosk-type-scale` (see [Typography](typography.md)).
 - Recover alone: a screen that loses its server shows a calm "reconnecting" state and retries.
 
 ## Resolution

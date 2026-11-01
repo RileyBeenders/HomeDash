@@ -26,6 +26,11 @@
   --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
   --text-xl: clamp(1.5rem, 1.3rem + 1vw, 2.125rem);
   --text-hero: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+  /* The clock on a wall screen is read from across a room: a step past hero. */
+  --text-clock: clamp(4rem, 2rem + 16vw, 16rem);
+  /* A kiosk screen is read from further away than a phone, so the whole type
+   * scale grows by this factor there (set on <html data-kiosk>). */
+  --kiosk-type-scale: 1.25;
   --leading-tight: 1.15;
   --leading-body: 1.5;
 
