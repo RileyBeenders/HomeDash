@@ -5,7 +5,7 @@ description: Check that the current branch follows the <type>/<short-kebab-descr
 
 # Branch name
 
-Branches are named `<type>/<short-kebab-description>`: lowercase, under 40 characters, with `<type>` one of:
+Branches are named `NNNN-<type>/<short-kebab-description>`: a four-digit number, then lowercase, under 40 characters after the number, with `<type>` one of:
 
 | Type | For |
 | --- | --- |
@@ -15,13 +15,13 @@ Branches are named `<type>/<short-kebab-description>`: lowercase, under 40 chara
 | `docs` | Docs only |
 | `chore` | Tooling, config, dependencies |
 
-Pattern: `^(feature|fix|design|docs|chore)/[a-z0-9]+(-[a-z0-9]+)*$`. The convention lives in `docs/workflow/version-control.md`.
+Pattern: `^[0-9]{4}-(feature|fix|design|docs|chore)/[a-z0-9]+(-[a-z0-9]+)*$`. `NNNN` is the branch's pull request number: one more than the highest from `gh pr list --state all --limit 1 --json number` when the branch is opened, or the PR's own number once it exists. The convention lives in `docs/workflow/version-control.md`.
 
 ## Check
 
 - `git branch --show-current`. If it is `main`, there is nothing to rename: during the scaffold phase say nothing, otherwise remind the user that work belongs on a branch
-- Match it against the pattern and the length limit. If it passes and the type fits the work, say "Branch name OK" in one line and stop
-- A name can pass the pattern and still be wrong: `docs/` for a branch that changes `tokens.css`, `feature/` for a bug fix. Judge the type from the commits (`git log --format=%s main..HEAD`) and files (`git diff --stat main...HEAD`, plus uncommitted changes)
+- Match it against the pattern and the length limit. If it passes, the type fits the work and the number is the branch's PR number (or the next free one when there is no PR yet), say "Branch name OK" in one line and stop
+- A name can pass the pattern and still be wrong: `docs/` for a branch that changes `tokens.css`, `feature/` for a bug fix, a number already used by another PR. Judge the type from the commits (`git log --format=%s main..HEAD`) and files (`git diff --stat main...HEAD`, plus uncommitted changes)
 
 ## Recommend a name
 
@@ -33,7 +33,7 @@ Pick the type from the work:
 - A change that corrects broken behavior: `fix`
 - Everything else that adds something a person sees or uses: `feature`
 
-Build the description from what the branch does, 2-4 words (`clock-card`, `kiosk-reconnect`), never the date or a ticket number. Offer one to three names with AskUserQuestion, best first, and let the user keep the current name.
+Build the description from what the branch does, 2-4 words (`clock-card`, `kiosk-reconnect`), never the date or a ticket number, and put the number in front (`0007-feature/clock-card`). Offer one to three names with AskUserQuestion, best first, and let the user keep the current name.
 
 ## Rename
 
