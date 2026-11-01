@@ -12,7 +12,7 @@ The visual rules for every screen live in `docs/design/` and the values in `docs
 1. Read `docs/design/index.md` for the principles, then only the pages the task touches: `color.md`, `typography.md`, `shape-and-depth.md`, `motion.md`, `components.md`, `touch-and-displays.md`, `accessibility.md`
 2. Use tokens from `docs/assets/tokens.css` for every color, size, radius, duration and curve. Never hard-code a value that has a token. If a needed value has no token, propose one and add it to the tokens file and its docs page rather than inlining it
 3. Build in both light and dark, at 375px, 768px, and a 1080×1920 portrait screen
-4. Check: one primary action per surface, glass only on the functional layer, targets at least 44px, hover wrapped in `@media (hover: hover)`, reduced motion honored, status never by color alone
+4. Check: one primary action per surface, every box is liquid glass tinted by the theme (see `docs/design/shape-and-depth.md`), with text on it AA over the worst backdrop, targets at least 44px, hover wrapped in `@media (hover: hover)`, reduced motion honored, status never by color alone
 5. If the design language itself must change, update `tokens.css`, the matching `docs/design/` page and `style-guide.html` together, and re-check text contrast (AA)
 
 ## Never

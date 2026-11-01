@@ -10,6 +10,13 @@ import { toast } from './toast.js';
 
 const WIDE = matchMedia('(min-width: 768px)');
 
+// The palettes in docs/assets/themes.css, in the order they are offered.
+export const PALETTES = [['ember', 'Ember'], ['harbor', 'Harbor'], ['moss', 'Moss'], ['graphite', 'Graphite'], ['rose', 'Rose']];
+
+// What can sit behind everything: plain, two drawn landscapes in app/grounds,
+// and three gradients in the tokens. Plain is the page's own color.
+export const GROUNDS = [['plain', 'Plain'], ['meadow', 'Meadow'], ['ridge', 'Ridge'], ['sky', 'Sky'], ['sunset', 'Sunset'], ['fern', 'Fern']];
+
 const SECTIONS = [
   { group: 'Pages', items: [
     { id: 'calendar', title: 'Calendar' },
@@ -18,6 +25,7 @@ const SECTIONS = [
   ] },
   { group: 'System', items: [
     { id: 'general', title: 'General' },
+    { id: 'theme', title: 'Theme' },
     { id: 'display', title: 'This display' },
     { id: 'updates', title: 'Updates' },
   ] },
@@ -149,12 +157,21 @@ export function createSettings({ onOpen, onClose }) {
 
       case 'general':
         detailBody.append(
-          group('Look', [rowSeg('Theme', 'general.theme', [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']])]),
           group('Pages', [
             rowSeg('Return home', 'general.idleReturn', [[0, 'Off'], [30, '30 s'], [60, '60 s'], [120, '2 min']]),
             rowSeg('Carousel', 'general.carousel', [[0, 'Off'], [10, '10 s'], [20, '20 s'], [30, '30 s']]),
           ]),
           group('Performance', [rowSeg('Quality', 'general.quality', [['auto', 'Auto'], ['high', 'High'], ['low', 'Low']])]),
+        );
+        break;
+
+      case 'theme':
+        detailBody.append(
+          group('Mode', [rowSeg('Mode', 'general.theme', [['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']])]),
+          group('Palette', [tilePicker('Palette', 'general.palette', PALETTES, (id) => h('span', { class: 'palette-view', 'data-palette': id, 'aria-hidden': 'true' },
+            h('i', { class: 'palette-card' }), h('i', { class: 'palette-accent' }), h('i', { class: 'palette-counter' })))]),
+          group('Ground', [tilePicker('Ground', 'general.ground', GROUNDS, (id) => h('span', { class: 'ground-view', 'data-ground': id, 'aria-hidden': 'true' }))]),
+          group('', [rowNote('Auto follows the device. Status colors stay the same in every palette. A ground sits behind the cards; text sitting straight on it turns white.')]),
         );
         break;
 
@@ -314,6 +331,27 @@ export function createSettings({ onOpen, onClose }) {
       }, text));
     }
     return row(label, seg, options.length > 2 ? 'stack' : '');
+  }
+
+  // One tile per choice, each drawn as itself so the choice is what you see.
+  // The check says which is on, so color is never the only sign.
+  function tilePicker(label, path, items, view) {
+    const current = get(path);
+    const grid = h('div', { class: 'palettes', role: 'radiogroup', 'aria-label': label });
+    for (const [id, name] of items) {
+      grid.append(h('button', {
+        class: 'palette',
+        type: 'button',
+        role: 'radio',
+        'aria-checked': id === current ? 'true' : 'false',
+        onclick: () => {
+          for (const b of grid.children) b.setAttribute('aria-checked', b.dataset.id === id ? 'true' : 'false');
+          set(path, id);
+        },
+        'data-id': id,
+      }, view(id), h('span', { class: 'palette-name' }, name, h('span', { class: 'palette-check', html: icon('check') }))));
+    }
+    return h('div', { class: 's-row palette-row' }, grid);
   }
 
   function rowSwitch(label, path) {

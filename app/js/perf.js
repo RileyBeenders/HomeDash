@@ -10,6 +10,7 @@ const BATCH_MS = 30_000;
 const HEARTBEAT_MS = 15_000;
 const WARN_P95 = 25;
 const ERROR_P95 = 50;
+const SUSPENDED_MS = 400;
 
 export function startPerf({ onTier }) {
   const lines = [];
@@ -37,7 +38,9 @@ export function startPerf({ onTier }) {
         frameBudget = Math.max(4, sorted[Math.floor(sorted.length / 2)]);
       }
     }
-    if (!document.hidden) deltas.push(dt);
+    // A gap this long is a page the browser throttled or suspended (a covered
+    // window, a pane in the background), not a screen that can't keep up.
+    if (!document.hidden && dt < SUSPENDED_MS) deltas.push(dt);
     if (now - windowStart >= WINDOW_MS) {
       closeWindow();
       windowStart = now;

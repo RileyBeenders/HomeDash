@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#215fa8"/>
+      <stop offset="0.5" stop-color="#5b9ad6"/>
+      <stop offset="0.8" stop-color="#bcdaf0"/>
+      <stop offset="1" stop-color="#efe6cc"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="1020" cy="330" r="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.06" stop-color="#fffbe6" stop-opacity="0.95"/>
+      <stop offset="0.3" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fae8a"/><stop offset="1" stop-color="#b6c9a6"/>
+    </linearGradient>
+    <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5f8f55"/><stop offset="1" stop-color="#86a96b"/>
+    </linearGradient>
+    <linearGradient id="near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f7040"/><stop offset="1" stop-color="#2f5a35"/>
+    </linearGradient>
+    <filter id="cloud" x="-30%" y="-40%" width="160%" height="180%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="blob"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.02" numOctaves="5" seed="11" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 3 -0.9" result="puff"/>
+      <feComposite in="blob" in2="puff" operator="arithmetic" k1="1.6" k2="0.35" k3="0" k4="0" result="c"/>
+      <feColorMatrix in="c" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.4 0"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="1000" fill="url(#sun)"/>
+  <g filter="url(#cloud)" fill="#fff">
+    <ellipse cx="200" cy="560" rx="300" ry="110"/>
+    <ellipse cx="420" cy="500" rx="200" ry="90"/>
+    <ellipse cx="1380" cy="500" rx="280" ry="90"/>
+    <ellipse cx="820" cy="560" rx="330" ry="80"/>
+    <ellipse cx="1150" cy="620" rx="260" ry="70"/>
+    <ellipse cx="120" cy="620" rx="260" ry="80"/>
+  </g>
+  <path d="M0 690 C 200 650 380 700 560 680 S 900 640 1120 675 S 1450 700 1600 665 V1000 H0Z" fill="url(#far)"/>
+  <path d="M0 740 C 240 700 420 770 700 745 S 1100 700 1340 750 S 1520 760 1600 735 V1000 H0Z" fill="url(#mid)"/>
+  <g fill="#3a6a3c" opacity="0.9">
+    <ellipse cx="1180" cy="742" rx="34" ry="30"/><rect x="1176" y="760" width="8" height="18"/>
+    <ellipse cx="1240" cy="748" rx="26" ry="24"/><rect x="1236" y="762" width="7" height="14"/>
+    <ellipse cx="1480" cy="752" rx="30" ry="27"/><rect x="1476" y="768" width="8" height="16"/>
+  </g>
+  <path d="M0 850 C 260 800 520 880 820 850 S 1300 800 1600 845 V1000 H0Z" fill="url(#near)"/>
+</svg>

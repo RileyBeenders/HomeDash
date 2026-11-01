@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Style guide</title>
 <link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="themes.css">
 <style>
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -31,7 +32,7 @@
   /* ---- functional layer: the bar floats on glass */
   .bar {
     position: sticky; top: 0; z-index: var(--z-bar);
-    display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3);
     padding: var(--space-3) max(var(--safe-x), env(safe-area-inset-left));
     background: var(--glass-fill);
     -webkit-backdrop-filter: var(--glass-filter);
@@ -51,8 +52,9 @@
 
   /* ---- content layer: opaque card, hairline, soft shadow */
   .card {
-    background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-default); padding: var(--space-5); display: grid; gap: var(--space-3);
+    background: var(--glass-sheen), var(--glass-fill); border: 1px solid var(--glass-line); border-radius: var(--radius-lg);
+    -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter);
+    box-shadow: var(--glass-specular), var(--shadow-glass); padding: var(--space-5); display: grid; gap: var(--space-3);
     transition: box-shadow var(--dur-normal) var(--ease), transform var(--dur-normal) var(--ease-out);
   }
   @media (hover: hover) { .card.lift:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); } }
@@ -132,11 +134,11 @@
 
   /* ---- toast + sheet */
   .toast { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius);
-    background: var(--glass-fill-strong); border: 1px solid var(--glass-line); box-shadow: var(--shadow-elevated);
+    background: var(--glass-fill-strong); border: 1px solid var(--glass-line); box-shadow: var(--glass-specular), var(--shadow-elevated);
     -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); max-width: 46ch; }
   .toast .light { --light-size: 12px; margin-top: 6px; animation: none; }
   dialog.sheet { width: min(460px, calc(100vw - 32px)); padding: 0; border: 1px solid var(--glass-line); border-radius: var(--radius-xl);
-    background: var(--glass-fill-strong); color: var(--text); box-shadow: var(--shadow-elevated);
+    background: var(--glass-fill-strong); color: var(--text); box-shadow: var(--glass-specular), var(--shadow-elevated);
     -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); }
   dialog.sheet[open] { animation: sheet-in var(--dur-slow) var(--ease-out); }
   dialog.sheet::backdrop { background: var(--scrim); }
@@ -175,7 +177,7 @@
     padding: calc(var(--hit-kiosk) + var(--space-5)) var(--space-4) calc(var(--hit-min) + var(--space-7)); }
   .page .card { padding: var(--space-3) var(--space-4); border-radius: var(--radius); }
   .page .reading { font-size: var(--text-xl); }
-  .glass { background: var(--glass-fill); border: 1px solid var(--glass-line); box-shadow: var(--shadow-soft);
+  .glass { background: var(--glass-sheen), var(--glass-fill); border: 1px solid var(--glass-line); box-shadow: var(--glass-specular), var(--shadow-default);
     -webkit-backdrop-filter: var(--glass-filter); backdrop-filter: var(--glass-filter); }
   .gear { position: absolute; top: var(--space-3); right: var(--space-3); z-index: 2; width: var(--hit-kiosk); height: var(--hit-kiosk);
     display: grid; place-items: center; border-radius: 50%; color: var(--text); cursor: pointer; padding: 0;
@@ -200,6 +202,13 @@
     <button role="tab" data-t="auto" aria-selected="true">Auto</button>
     <button role="tab" data-t="light" aria-selected="false">Light</button>
     <button role="tab" data-t="dark" aria-selected="false">Dark</button>
+  </div>
+  <div class="seg" role="tablist" aria-label="Palette" id="palette">
+    <button role="tab" data-p="ember" aria-selected="true">Ember</button>
+    <button role="tab" data-p="harbor" aria-selected="false">Harbor</button>
+    <button role="tab" data-p="moss" aria-selected="false">Moss</button>
+    <button role="tab" data-p="graphite" aria-selected="false">Graphite</button>
+    <button role="tab" data-p="rose" aria-selected="false">Rose</button>
   </div>
 </header>
 
@@ -352,6 +361,11 @@
     themeBtns.forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === t)));
   }
   themeBtns.forEach(b => b.addEventListener('click', () => setTheme(b.dataset.t)));
+  const paletteBtns = document.querySelectorAll('#palette button');
+  paletteBtns.forEach(b => b.addEventListener('click', () => {
+    root.setAttribute('data-palette', b.dataset.p);
+    paletteBtns.forEach(x => x.setAttribute('aria-selected', String(x === b)));
+  }));
   document.querySelectorAll('#range button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('#range button').forEach(x => x.setAttribute('aria-selected', String(x === b)));
   }));

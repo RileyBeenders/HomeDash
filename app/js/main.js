@@ -7,8 +7,9 @@ import { createPager } from './pager.js';
 import { createHome } from './pages/home.js';
 import { createCalendar } from './pages/calendar.js';
 import { createWeather } from './pages/weather.js';
-import { createSettings } from './settings.js';
+import { createSettings, PALETTES, GROUNDS } from './settings.js';
 import { startPerf } from './perf.js';
+import { glass, settleGlass, setGlassQuality } from './glass.js';
 import { createTextClock, createDateLine } from './clock.js';
 import { refreshEvents } from './calendar-data.js';
 import { state, loadSettings, loadWeather, connect, on, isKiosk, pingActivity } from './state.js';
@@ -93,11 +94,30 @@ new ResizeObserver(([entry]) => {
   document.documentElement.style.setProperty('--corner-h', `${Math.ceil(entry.contentRect.height)}px`);
 }).observe(corner);
 
-const perf = startPerf({ onTier: () => {} });
+const linkEl = document.getElementById('link');
+glass(dotsEl, 'pill');
+glass(linkEl, 'pill');
+for (const card of document.querySelectorAll('.card')) glass(card);
+const perf = startPerf({ onTier: setGlassQuality });
+
+// The mode (auto, light, dark) and the palette are attributes on <html>; the
+// browser's toolbar color follows the ground.
+const matchDark = matchMedia('(prefers-color-scheme: dark)');
+function paintToolbar() {
+  const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+  for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.content = bg;
+}
+matchDark.addEventListener('change', paintToolbar);
 
 on('settings', (s) => {
-  document.documentElement.dataset.theme = s.general.theme === 'auto' ? '' : s.general.theme;
-  if (!document.documentElement.dataset.theme) delete document.documentElement.dataset.theme;
+  const root = document.documentElement;
+  if (s.general.theme === 'auto') delete root.dataset.theme;
+  else root.dataset.theme = s.general.theme;
+  if (PALETTES.some(([id]) => id === s.general.palette)) root.dataset.palette = s.general.palette;
+  else delete root.dataset.palette;
+  if (s.general.ground !== 'plain' && GROUNDS.some(([id]) => id === s.general.ground)) root.dataset.ground = s.general.ground;
+  else delete root.dataset.ground;
+  paintToolbar();
   perf.setQuality(s.general.quality);
   for (const name of PAGES) pages[name].applySettings(s);
   cornerClock.update({ hourCycle: s.home.hourCycle, seconds: false, timeZone: s.home.timeZone });
@@ -118,7 +138,8 @@ on('calendar', () => {
 });
 
 on('connection', (c) => {
-  document.getElementById('link').hidden = c !== 'offline';
+  linkEl.hidden = c !== 'offline';
+  settleGlass();
 });
 
 // ------------------------------------------------------------------ idle
@@ -166,7 +187,8 @@ window.homedash = { goHome: () => go('home'), onSleep: () => pager.jump(HOME), o
   try {
     await loadSettings();
   } catch {
-    document.getElementById('link').hidden = false;
+    linkEl.hidden = false;
+    settleGlass();
   }
   connect();
   loadWeather().catch(() => {});

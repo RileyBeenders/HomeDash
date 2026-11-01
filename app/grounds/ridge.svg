@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2d4a78"/>
+      <stop offset="0.45" stop-color="#7d8fb0"/>
+      <stop offset="0.72" stop-color="#e8b58e"/>
+      <stop offset="1" stop-color="#f6dcb4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="800" cy="640" r="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff2cf" stop-opacity="0.95"/>
+      <stop offset="0.25" stop-color="#ffdca0" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffdca0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a99bb0"/><stop offset="1" stop-color="#d3b3a4"/></linearGradient>
+    <linearGradient id="r2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7f7a96"/><stop offset="1" stop-color="#b79f9d"/></linearGradient>
+    <linearGradient id="r3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#55617f"/><stop offset="1" stop-color="#8a8596"/></linearGradient>
+    <linearGradient id="r4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f4a4f"/><stop offset="1" stop-color="#27403f"/></linearGradient>
+    <filter id="haze" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="30"/></filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <g fill="#fff" opacity="0.5" filter="url(#haze)">
+    <ellipse cx="300" cy="330" rx="260" ry="26"/><ellipse cx="1250" cy="280" rx="300" ry="24"/><ellipse cx="760" cy="420" rx="220" ry="18"/>
+  </g>
+  <path d="M0 640 L120 590 L230 625 L380 540 L520 620 L640 570 L760 630 L900 560 L1040 620 L1180 545 L1320 610 L1460 560 L1600 610 V1000 H0Z" fill="url(#r1)"/>
+  <path d="M0 720 L140 650 L260 700 L420 600 L560 700 L700 640 L860 720 L1010 620 L1160 700 L1300 630 L1460 710 L1600 650 V1000 H0Z" fill="url(#r2)"/>
+  <path d="M0 800 L180 720 L320 790 L500 690 L680 790 L860 730 L1040 800 L1220 710 L1400 790 L1600 730 V1000 H0Z" fill="url(#r3)"/>
+  <rect x="0" y="780" width="1600" height="120" fill="#f6dcb4" opacity="0.28" filter="url(#haze)"/>
+  <path d="M0 880 C 200 840 360 900 600 880 S 1000 830 1240 880 S 1500 890 1600 860 V1000 H0Z" fill="url(#r4)"/>
+  <g fill="#1f3636">
+    <path d="M90 900 l22 -90 l22 90z"/><path d="M130 905 l18 -70 l18 70z"/><path d="M1380 890 l24 -100 l24 100z"/><path d="M1425 896 l18 -72 l18 72z"/><path d="M1020 905 l16 -62 l16 62z"/>
+  </g>
+</svg>

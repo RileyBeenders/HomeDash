@@ -8,7 +8,9 @@ import path from 'node:path';
 
 export const DEFAULTS = {
   general: {
-    theme: 'auto',      // auto | light | dark
+    theme: 'auto',      // mode: auto | light | dark
+    palette: 'ember',   // ember | harbor | moss | graphite | rose
+    ground: 'plain',    // plain | meadow | ridge | sky | sunset | fern
     idleReturn: 60,     // seconds without a touch before the pager goes Home; 0 = off
     carousel: 0,        // seconds per page while idle; 0 = off
     quality: 'auto',    // auto | high | low
