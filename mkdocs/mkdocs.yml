@@ -60,6 +60,7 @@ nav:
       - design/accessibility.md
   - System:
       - system/overview.md
+      - system/running.md
       - system/dashboard.md
       - system/performance.md
   - Workflow:

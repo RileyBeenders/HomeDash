@@ -1,6 +1,6 @@
 # Performance
 
-The target is the display's refresh rate with no visible stutter, for days at a time. Planned, not yet built.
+The target is the display's refresh rate with no visible stutter, for days at a time. The display side is built (`app/js/perf.js`); thresholds are the starting values below and are tuned on real displays.
 
 ## Building for it
 
@@ -14,9 +14,9 @@ The target is the display's refresh rate with no visible stutter, for days at a 
 
 ## Quality tiers
 
-The page carries `data-quality="high"` or `"low"` on `<html>`. Low turns off glass blur (the floating layer falls back to its solid fill), entrance animation and the background's second layer, and keeps everything else. Settings choose **Auto**, **High** or **Low**; Auto starts high.
+The page carries `data-quality="high"` or `"low"` on `<html>`. Low turns off glass blur (the floating layer falls back to its solid fill), the flip clock's fold (digits swap instead) and entrance animation, and keeps everything else. Settings choose **Auto**, **High** or **Low**; Auto starts high.
 
-- **Down:** two warning windows in a row drops the tier to low.
+- **Down:** two warning windows in a row drops the tier to low. A warning window is 30 seconds (three 10-second samples) all over the p95 threshold, so one rough sample never drops the tier.
 - **Up:** only after ten clean minutes, and never more than once an hour, so it can't flap.
 - Every change is logged with its reason.
 
@@ -57,4 +57,4 @@ Every line carries the display name and id:
 
 - A page that logs an error twice in a row reloads itself.
 - A display that stops sending heartbeats is marked offline in the log and in Diagnostics, and shown a calm "reconnecting" state when it returns.
-- Restarting the display computer itself is outside the page's reach and is handled in display setup.
+- Restarting the display computer itself is outside the page's reach. Doing it from the server is planned for the Raspberry Pis; phones and tablets only ever reload.
